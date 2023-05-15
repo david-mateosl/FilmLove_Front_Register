@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ButtonWithShadow" parent="Widget.AppCompat.Button">
+        <item name="android:elevation">8dp</item> <!-- Ajusta la elevación para la sombra -->
+        <item name="android:shadowColor">#80000000</item> <!-- Ajusta el color de la sombra -->
+        <item name="android:shadowDx">2</item> <!-- Ajusta la desviación horizontal de la sombra -->
+        <item name="android:shadowDy">2</item> <!-- Ajusta la desviación vertical de la sombra -->
+        <item name="android:shadowRadius">4</item> <!-- Ajusta el radio de la sombra -->
+    </style>
+</resources>
