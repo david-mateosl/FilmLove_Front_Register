@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_login"
+    style="@style/DarkActionBar"
     tools:context=".LoginActivity">
 
 
@@ -23,12 +24,13 @@
 
     <Button
         android:id="@+id/botonLogin"
+        style="@style/ButtonWithShadow"
         android:layout_width="220dp"
         android:layout_height="48dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/boton_pressed"
+        android:onClick="login"
         android:text="Login"
-        style="@style/ButtonWithShadow"
         android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/botonRegistro"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,6 +85,7 @@
         android:background="@drawable/edit_text_redondo"
         android:ems="10"
         android:hint="•••••"
+        android:drawableLeft="@drawable/baseline_lock_24"
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:padding="10dp"

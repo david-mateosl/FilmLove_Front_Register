@@ -1,0 +1,53 @@
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_principal"
+    tools:context=".PrincipalActivity">
+
+    <!-- Contenido principal de la pantalla -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:id="@+id/drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/colorMenuBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+            <!-- Elemento 1 -->
+            <TextView
+                android:id="@+id/menu_item1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Elemento 1"
+                android:padding="16dp"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Elemento 2 -->
+            <TextView
+                android:id="@+id/menu_item2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:padding="16dp"
+                android:text="Elemento 2" />
+
+            <!-- Agrega más elementos de menú según sea necesario -->
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

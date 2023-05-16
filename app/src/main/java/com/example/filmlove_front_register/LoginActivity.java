@@ -11,10 +11,15 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
     }
 
+    public void login(View vista){
+        Intent iLogin = new Intent(this, PrincipalActivity.class);
+        finish();
+        startActivity(iLogin);
+    }
 
     public void registro(View view){
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
+        Intent iRegistro = new Intent(this, RegisterActivity.class);
+        startActivity(iRegistro);
         finish();
     }
 }
