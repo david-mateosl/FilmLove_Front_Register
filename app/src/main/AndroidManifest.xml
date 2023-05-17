@@ -12,6 +12,26 @@
         android:theme="@style/Theme.FilmLove_Front_Register"
         tools:targetApi="31">
         <activity
+            android:name=".GeneroActivity"
+            android:exported="false"
+            android:label="@string/title_activity_genero"
+            android:theme="@style/Theme.FilmLove_Front_Register" />
+        <activity
+            android:name=".SerieActivity"
+            android:exported="false"
+            android:label="@string/title_activity_serie"
+            android:theme="@style/Theme.FilmLove_Front_Register" />
+        <activity
+            android:name=".PeliculaActivity"
+            android:exported="false"
+            android:label="@string/title_activity_pelicula"
+            android:theme="@style/Theme.FilmLove_Front_Register" />
+        <activity
+            android:name=".FavoritoActivity"
+            android:exported="false"
+            android:label="@string/title_activity_favorito"
+            android:theme="@style/Theme.FilmLove_Front_Register" />
+        <activity
             android:name=".PrincipalActivity"
             android:exported="false"
             android:label="@string/title_activity_principal"
@@ -32,5 +52,6 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

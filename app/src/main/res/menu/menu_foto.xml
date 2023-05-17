@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/cambiar_foto"
+        android:title="@string/cambiar_foto" />
+    <item
+        android:id="@+id/cerrar_sesion"
+        android:title="@string/cerrar_sesion" />
+    <item
+        android:id="@+id/salir"
+        android:title="@string/salir" />
+</menu>

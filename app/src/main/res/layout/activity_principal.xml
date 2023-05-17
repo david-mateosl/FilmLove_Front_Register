@@ -1,53 +1,142 @@
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_principal"
-    tools:context=".PrincipalActivity">
+    android:layout_height="match_parent">
 
-    <!-- Contenido principal de la pantalla -->
-    <LinearLayout
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <RelativeLayout
-        android:id="@+id/drawer"
-        android:layout_width="240dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/colorMenuBackground">
+        android:background="@drawable/background_principal"
+        tools:context=".PrincipalActivity">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
+            <!-- Agrega aquí el contenido principal de la pantalla -->
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImageView"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/foto_perfil_por_defecto"
+                app:civ_border_color="@color/orange"
+                app:civ_border_width="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.945"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.024" />
 
-            <!-- Elemento 1 -->
-            <TextView
-                android:id="@+id/menu_item1"
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/drawer"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/colorMenuBackground">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Elemento 1"
-                android:padding="16dp"
-                android:layout_marginBottom="8dp"/>
+                android:orientation="vertical">
 
-            <!-- Elemento 2 -->
-            <TextView
-                android:id="@+id/menu_item2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp"
-                android:padding="16dp"
-                android:text="Elemento 2" />
+                <!-- Elementos del menú lateral -->
 
-            <!-- Agrega más elementos de menú según sea necesario -->
+                <TextView
+                    android:id="@+id/menuitem_cerrarsesion"
+                    android:layout_width="match_parent"
+                    android:layout_height="350px"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="3dp"
+                    android:drawableStart="@drawable/cerrar_sesion_icono"
+                    android:drawableTint="@color/orange"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:paddingStart="70px"
+                    android:text="INICIO"
+                    android:textAlignment="center"
+                    android:textColor="@color/orange"
+                    android:textSize="50px"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat" />
 
-        </LinearLayout>
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/menuitem_favoritos"
+                    android:layout_width="match_parent"
+                    android:layout_height="350px"
+                    android:layout_marginBottom="40dp"
+                    android:drawableStart="@drawable/favorito_icono"
+                    android:drawableTint="@color/orange"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:paddingStart="70px"
+                    android:text="FAVORITOS"
+                    android:textAlignment="center"
+                    android:textColor="@color/orange"
+                    android:textSize="50px"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat" />
 
+                <TextView
+                    android:id="@+id/menuitem_peliculas"
+                    android:layout_width="match_parent"
+                    android:layout_height="350px"
+                    android:layout_marginBottom="40dp"
+                    android:drawableStart="@drawable/peliculas_icono"
+                    android:drawableTint="@color/orange"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:paddingStart="70px"
+                    android:text="PELICULAS"
+                    android:textAlignment="center"
+                    android:textColor="@color/orange"
+                    android:textSize="50px"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat" />
 
-</androidx.drawerlayout.widget.DrawerLayout>
+                <TextView
+                    android:id="@+id/menuitem_series"
+                    android:layout_width="match_parent"
+                    android:layout_height="350px"
+                    android:layout_marginBottom="40dp"
+                    android:drawableStart="@drawable/series_icono"
+                    android:drawableTint="@color/orange"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:paddingStart="70px"
+                    android:text="SERIES"
+                    android:textAlignment="center"
+                    android:textColor="@color/orange"
+                    android:textSize="50px"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat" />
+
+                <TextView
+                    android:id="@+id/menuitem_Generos"
+                    android:layout_width="match_parent"
+                    android:layout_height="350px"
+                    android:layout_marginBottom="40dp"
+                    android:drawableStart="@drawable/generos_icono"
+                    android:drawableTint="@color/orange"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:paddingStart="70px"
+                    android:text="GENEROS"
+                    android:textAlignment="center"
+                    android:textColor="@color/orange"
+                    android:textSize="50px"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat" />
+
+                <!-- Agrega más elementos de menú según sea necesario -->
+
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</RelativeLayout>

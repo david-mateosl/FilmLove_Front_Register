@@ -50,4 +50,11 @@
     <string name="name">Name</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_principal">PrincipalActivity</string>
+    <string name="title_activity_favorito">FavoritoActivity</string>
+    <string name="title_activity_pelicula">PeliculaActivity</string>
+    <string name="title_activity_serie">SerieActivity</string>
+    <string name="title_activity_genero">generoActivity</string>
+    <string name="salir">salir</string>
+    <string name="cerrar_sesion">Cerrar Sesion</string>
+    <string name="cambiar_foto">Cambiar Foto</string>
 </resources>
