@@ -3,13 +3,14 @@ package com.example.filmlove_front_register;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 // OnClickListenerHelper.java
 public class IniciarPantallas {
-    private static final int REQUEST_CODE_IMAGE_PICK = 1;
+    public static final int REQUEST_CODE_IMAGE_PICK = 1;
     private static OnActivityResultListener onActivityResultListener;
 
     public interface OnActivityResultListener {
@@ -20,13 +21,17 @@ public class IniciarPantallas {
         onActivityResultListener = listener;
     }
 
-    public static void menuFotoPerfil(ImageView imagen) {
+    private void seleccionarImagenDeGaleria(Activity activity) {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        activity.startActivityForResult(intent, REQUEST_CODE_IMAGE_PICK);
+    }
+
+    public static void menuFotoPerfil(ImageView imagen, final Activity activity) {
         imagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onActivityResultListener != null) {
-                    onActivityResultListener.onActivityResult(REQUEST_CODE_IMAGE_PICK, Activity.RESULT_OK, null);
-                }
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                activity.startActivityForResult(intent, REQUEST_CODE_IMAGE_PICK);
             }
         });
     }
