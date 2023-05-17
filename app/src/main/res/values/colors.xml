@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="orange">#FF9933</color>
     <color name="colorMenuBackground">#4300003D</color>
+    <color name="colorLayoutTop">#991A1C20</color>
     <color name="colorOverlay">#3300008B</color>
 
 </resources>

@@ -17,12 +17,12 @@
             android:label="@string/title_activity_genero"
             android:theme="@style/Theme.FilmLove_Front_Register" />
         <activity
-            android:name=".SerieActivity"
+            android:name=".SeriesActivity"
             android:exported="false"
             android:label="@string/title_activity_serie"
             android:theme="@style/Theme.FilmLove_Front_Register" />
         <activity
-            android:name=".PeliculaActivity"
+            android:name=".PeliculasActivity"
             android:exported="false"
             android:label="@string/title_activity_pelicula"
             android:theme="@style/Theme.FilmLove_Front_Register" />

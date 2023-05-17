@@ -1,0 +1,168 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/iconoImagen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_principal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Agrega aquí el contenido principal de la pantalla -->
+
+            <LinearLayout
+                android:id="@+id/layoutTop"
+                android:layout_width="411dp"
+                android:layout_height="88dp"
+                android:background="@color/colorLayoutTop"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="94dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="-10dp"
+                    android:background="@drawable/logo" />
+
+                <SearchView
+                    android:id="@+id/barraDeBusqueda"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="-10dp"
+                    android:background="@drawable/edit_text_redondo" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileImageView"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+
+                    android:layout_margin="17dp"
+                    android:background="@drawable/foto_perfil_por_defecto"
+                    app:civ_border_color="@color/orange"
+                    app:civ_border_width="2dp" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/drawer"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/colorMenuBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Elementos del menú lateral -->
+
+                <TextView
+                    android:id="@+id/menuitemcerrarsesion"
+                    android:layout_width="match_parent"
+                    android:layout_height="350px"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawableStart="@drawable/cerrar_sesion_icono"
+                    android:drawableTint="@color/orange"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:paddingStart="70px"
+                    android:text="INICIO"
+                    android:textAlignment="center"
+                    android:textColor="@color/orange"
+                    android:textSize="50px"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat" />
+
+                <TextView
+                    android:id="@+id/menuitemfavoritos"
+                    android:layout_width="match_parent"
+                    android:layout_height="350px"
+                    android:layout_marginBottom="40dp"
+                    android:drawableStart="@drawable/favorito_icono"
+                    android:drawableTint="@color/orange"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:paddingStart="70px"
+                    android:text="FAVORITOS"
+                    android:textAlignment="center"
+                    android:textColor="@color/orange"
+                    android:textSize="50px"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat" />
+
+                <TextView
+                    android:id="@+id/menuitempeliculas"
+                    android:layout_width="match_parent"
+                    android:layout_height="350px"
+                    android:layout_marginBottom="40dp"
+                    android:drawableStart="@drawable/peliculas_icono"
+                    android:drawableTint="@color/orange"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:paddingStart="70px"
+                    android:text="PELICULAS"
+                    android:textAlignment="center"
+                    android:textColor="@color/orange"
+                    android:textSize="50px"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat" />
+
+                <TextView
+                    android:id="@+id/menuitemseries"
+                    android:layout_width="match_parent"
+                    android:layout_height="350px"
+                    android:layout_marginBottom="40dp"
+                    android:drawableStart="@drawable/series_icono"
+                    android:drawableTint="@color/orange"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:paddingStart="70px"
+                    android:text="SERIES"
+                    android:textAlignment="center"
+                    android:textColor="@color/orange"
+                    android:textSize="50px"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat" />
+
+                <TextView
+                    android:id="@+id/menuitemGeneros"
+                    android:layout_width="match_parent"
+                    android:layout_height="350px"
+                    android:layout_marginBottom="40dp"
+                    android:drawableStart="@drawable/generos_icono"
+                    android:drawableTint="@color/orange"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:paddingStart="70px"
+                    android:text="GENEROS"
+                    android:textAlignment="center"
+                    android:textColor="@color/orange"
+                    android:textSize="50px"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat" />
+
+                <!-- Agrega más elementos de menú según sea necesario -->
+
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</RelativeLayout>
