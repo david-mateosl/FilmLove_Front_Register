@@ -59,4 +59,5 @@
     <string name="cambiar_foto">Cambiar Foto</string>
     <string name="inicio">INICIO</string>
     <string name="peliculas">PELICULAS</string>
+    <string name="title_activity_produccion">ProduccionActivity</string>
 </resources>

@@ -1,4 +1,4 @@
-package POJO;
+package Modelo;
 
 public class Pelicula {
 }

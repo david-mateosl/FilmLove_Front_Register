@@ -31,7 +31,7 @@
                 app:layout_constraintVertical_bias="0.0">
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/imagenLogo"
                     android:layout_width="94dp"
                     android:layout_height="100dp"
                     android:layout_marginStart="-6dp"
@@ -46,7 +46,7 @@
                     android:background="@drawable/edit_text_redondo" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profileImageView"
+                    android:id="@+id/profileImageView2"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center"
@@ -69,7 +69,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:elevation="10dp">
 
                 <!-- Elementos del menú lateral -->
 

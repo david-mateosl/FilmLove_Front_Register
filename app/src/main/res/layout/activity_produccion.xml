@@ -1,9 +1,11 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PrincipalActivity">
+    android:fitsSystemWindows="true"
+    tools:context=".ProduccionActivity">
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -14,20 +16,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/imagenSerie"
-                android:layout_width="116dp"
-                android:layout_height="171dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/el_bueno_feo_malo"
-                android:onClick="iniciarProduccion"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imagenPeliTres"
-                app:layout_constraintHorizontal_bias="0.098"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutTop"
-                app:layout_constraintVertical_bias="0.918" />
 
             <LinearLayout
                 android:id="@+id/layoutTop"
@@ -58,7 +46,7 @@
                     android:background="@drawable/edit_text_redondo" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imagenPerfil"
+                    android:id="@+id/profileImageView2"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center"
@@ -70,120 +58,147 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/imagenPeliTres"
-                android:layout_width="116dp"
-                android:layout_height="171dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
+                android:id="@+id/imageView2"
+                android:layout_width="130dp"
+                android:layout_height="200dp"
                 android:background="@drawable/el_bueno_feo_malo"
-                android:onClick="iniciarProduccion"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutTop"
-                app:layout_constraintVertical_bias="0.013" />
+                app:layout_constraintHorizontal_bias="0.056"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.308" />
 
-            <ImageView
-                android:id="@+id/imagenPeliDos"
-                android:layout_width="116dp"
-                android:layout_height="171dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/el_bueno_feo_malo"
-                android:onClick="iniciarProduccion"
+            <TextView
+                android:id="@+id/premiere"
+                android:layout_width="48dp"
+                android:layout_height="21dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/edit_text_redondo"
+                android:text="1966"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="@+id/tituloPelicula"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tituloPelicula"
+                app:layout_constraintTop_toTopOf="@+id/tituloPelicula" />
+
+            <TextView
+                android:id="@+id/reparto"
+                android:layout_width="327dp"
+                android:layout_height="41dp"
+                android:minHeight="48dp"
+                android:text="Clint Eastwood · Eli Wallach · Lee Van Cleef"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toTopOf="@+id/galeriaProduccion"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2"
+                app:layout_constraintVertical_bias="0.753" />
+
+            <TextView
+                android:id="@+id/votosMedios"
+                android:layout_width="45dp"
+                android:layout_height="21dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/boton_pressed"
+                android:text="5/5"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imagenPeliTres"
-                app:layout_constraintHorizontal_bias="0.901"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutTop"
-                app:layout_constraintVertical_bias="0.013" />
-
-            <ImageView
-                android:id="@+id/imagenPeliUno"
-                android:layout_width="116dp"
-                android:layout_height="171dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/el_bueno_feo_malo"
-                android:onClick="iniciarProduccion"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imagenPeliDos"
-                app:layout_constraintHorizontal_bias="0.516"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutTop"
-                app:layout_constraintVertical_bias="0.013" />
-
-            <TextView
-                android:id="@+id/tituloPeliDos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="44dp"
-                android:text="TextView"
-                app:layout_constraintBottom_toTopOf="@+id/galeriaProducciones"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.116"
+                app:layout_constraintHorizontal_bias="0.155"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imagenPeliUno"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <TextView
-                android:id="@+id/tituloPeliUno"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="44dp"
-                android:text="TextView"
-                app:layout_constraintBottom_toTopOf="@+id/galeriaProducciones"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imagenPeliDos"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <TextView
-                android:id="@+id/tituloPeliTres"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="44dp"
-                android:text="TextView"
-                app:layout_constraintBottom_toTopOf="@+id/galeriaProducciones"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.866"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imagenPeliTres"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView2"
+                app:layout_constraintVertical_bias="0.002" />
 
             <ViewFlipper
-                android:id="@+id/galeriaProducciones"
-                android:layout_width="249dp"
-                android:layout_height="182dp"
+                android:id="@+id/galeriaProduccion"
+                android:layout_width="264dp"
+                android:layout_height="172dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.575" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView2"
+                app:layout_constraintVertical_bias="0.564">
+
+            </ViewFlipper>
 
             <TextView
-                android:id="@+id/titutloSerie"
+                android:id="@+id/generos"
+                android:layout_width="132dp"
+                android:layout_height="54dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/boton_pressed"
+                android:text="Spaghetti Western Western Accion Aventuras"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                app:layout_constraintEnd_toStartOf="@+id/driector"
+                app:layout_constraintHorizontal_bias="0.088"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="@+id/imageView2"
+                app:layout_constraintVertical_bias="0.414" />
+
+            <TextView
+                android:id="@+id/driector"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="32dp"
-                android:text="TextView"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                android:text="Sergio Leone"
+                android:textColor="#FFFFFF"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toTopOf="@+id/sinopsis"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.395"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.741" />
+                app:layout_constraintTop_toBottomOf="@+id/ratingBar2"
+                app:layout_constraintVertical_bias="0.206" />
 
             <TextView
-                android:id="@+id/sinopsisSerie"
-                android:layout_width="245dp"
-                android:layout_height="139dp"
-                android:text="TextView"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/tituloPelicula"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="El bueno el feo y el malo"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/imageView2"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.517"
-                app:layout_constraintStart_toEndOf="@+id/imagenSerie"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.937" />
+                app:layout_constraintHorizontal_bias="0.129"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutTop"
+                app:layout_constraintVertical_bias="0.59" />
+
+            <RatingBar
+                android:id="@+id/ratingBar2"
+                android:layout_width="241dp"
+                android:layout_height="41dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="@+id/imageView2"
+                app:layout_constraintVertical_bias="0.0"
+                android:progressTint="#FFD700" />
+
+            <TextView
+                android:id="@+id/sinopsis"
+                android:layout_width="225dp"
+                android:layout_height="193dp"
+                android:layout_marginStart="52dp"
+                android:layout_marginTop="12dp"
+                android:text="Los protagonistas son tres cazadores de recompensas que buscan un tesoro que ninguno de ellos puede encontrar sin la ayuda de los otros dos. Así que los tres colaboran entre sí, al menos en apariencia."
+                android:textColor="#FFFFFF"
+                android:gravity="start|top"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.093"
+                app:layout_constraintStart_toEndOf="@+id/votosMedios"
+                app:layout_constraintTop_toBottomOf="@+id/generos" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -213,7 +228,7 @@
                     android:gravity="center_vertical"
                     android:padding="16dp"
                     android:paddingStart="70px"
-                    android:text="CERRAR SESION"
+                    android:text="INICIO"
                     android:textAlignment="center"
                     android:textColor="@color/orange"
                     android:textSize="50px"
@@ -288,8 +303,10 @@
                     android:textStyle="bold"
                     tools:ignore="RtlCompat" />
 
+                <!-- Agrega más elementos de menú según sea necesario -->
+
             </LinearLayout>
         </RelativeLayout>
     </androidx.drawerlayout.widget.DrawerLayout>
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
