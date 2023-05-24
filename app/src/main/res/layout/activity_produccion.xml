@@ -157,7 +157,7 @@
                 android:textStyle="italic"
                 app:layout_constraintBottom_toTopOf="@+id/sinopsis"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ratingBar2"
+                app:layout_constraintTop_toBottomOf="@+id/barraDeBotacion"
                 app:layout_constraintVertical_bias="0.206" />
 
             <TextView
@@ -176,7 +176,7 @@
                 app:layout_constraintVertical_bias="0.59" />
 
             <RatingBar
-                android:id="@+id/ratingBar2"
+                android:id="@+id/barraDeBotacion"
                 android:layout_width="241dp"
                 android:layout_height="41dp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2"
@@ -226,6 +226,7 @@
                     android:drawableStart="@drawable/cerrar_sesion_icono"
                     android:drawableTint="@color/orange"
                     android:gravity="center_vertical"
+                    android:onClick="inicio"
                     android:padding="16dp"
                     android:paddingStart="70px"
                     android:text="INICIO"

@@ -1,21 +1,42 @@
 package Modelo;
 
-public class Usuario {
+import com.google.gson.annotations.SerializedName;
 
-    String username;
-    String password;
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
+
+    @SerializedName("name")
+    private String name;
+
+    @SerializedName("email")
+    private String email;
+    @SerializedName("password")
+    private String password;
+    @SerializedName("rol")
+    private String rol;
 
 
-    public Usuario(String username, String password) {
-
+    public Usuario(String name, String email,String password, String rol) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.rol = rol;
     }
 
     public String getUsername() {
-        return username;
+        return name;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.name = username;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String getPassword() {
@@ -26,11 +47,21 @@ public class Usuario {
         this.password = password;
     }
 
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +
-                "username='" + username + '\'' +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", rol='" + rol + '\'' +
                 '}';
     }
 }

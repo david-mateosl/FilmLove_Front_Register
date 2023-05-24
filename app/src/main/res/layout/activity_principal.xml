@@ -151,7 +151,7 @@
 
             <ViewFlipper
                 android:id="@+id/galeriaProducciones"
-                android:layout_width="249dp"
+                android:layout_width="264dp"
                 android:layout_height="182dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -15,6 +15,8 @@ import android.widget.ViewFlipper;
 
 import com.bumptech.glide.Glide;
 
+import Modelo.Usuario;
+
 
 public class PrincipalActivity extends Activity{
     static final int REQUEST_CODE_IMAGE_PICK = 1;
@@ -26,11 +28,21 @@ public class PrincipalActivity extends Activity{
     ImageView imagenPerfil;
     SearchView barraBusqueda;
     ViewFlipper v_fliper;
+    Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
+
+        // Obtener el objeto usuario de la actividad anterior
+        usuario = (Usuario) getIntent().getSerializableExtra("usuario");
+        // Ahora puedes utilizar el objeto usuario en esta actividad
+        if (usuario != null) {
+            Toast.makeText(this, usuario.getEmail(), Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Error inesperado en el inicio de sesion", Toast.LENGTH_SHORT).show();
+        }
 
         imagenPerfil = findViewById(R.id.imagenPerfil);
         cerrarSesion = findViewById(R.id.menuitemcerrarsesion);
@@ -38,8 +50,6 @@ public class PrincipalActivity extends Activity{
         peliculas = findViewById(R.id.menuitempeliculas);
         series = findViewById(R.id.menuitemseries);
         generos = findViewById(R.id.menuitemGeneros);
-
-        //IniciarPantallas.setOnActivityResultListener(this);
 
         IniciarPantallas.menuFotoPerfil(imagenPerfil,PrincipalActivity.this);
         IniciarPantallas.cerrarSesion(cerrarSesion, PrincipalActivity.this);

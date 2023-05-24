@@ -13,25 +13,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Configuracion {
 
-    private static final String DBHOST = "";
-    private static final String USUARIOS = "login/";
-    private static final String DB_DATABASE = "postgresºº";
-    private static final String DB_USERNAME = "root";
-
-    private static Retrofit retrofit;
-
-    public static Retrofit getRetrofit(Context context){
-        if (retrofit == null){
-            retrofit = new  Retrofit.Builder()
-                                    .baseUrl(DBHOST)
-                                    .addConverterFactory(GsonConverterFactory.create())
-                                    .build();
-        }
-        return retrofit;
-    }
-
-    public static void mensaje(Context context, String mensaje){
-        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
-    }
+    static final String DBHOST = "https://6829-81-43-16-96.eu.ngrok.io/api";
+    static final String DBLOGIN = "login";
+    static final String DBFORGOTPWD = "forgotten-password";
 
 }
