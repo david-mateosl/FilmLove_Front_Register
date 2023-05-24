@@ -55,6 +55,8 @@ public class LoginActivity extends Activity implements LoginCallback {
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         boolean remember = sharedPreferences.getBoolean(KEY_REMEMBER, false);
+        recordarCheckBox.setChecked(remember);
+
         if (remember) {
             String savedUsername = sharedPreferences.getString(KEY_USERNAME, "");
             String savedPassword = sharedPreferences.getString(KEY_PASSWORD, "");
@@ -62,6 +64,7 @@ public class LoginActivity extends Activity implements LoginCallback {
             contraseniatxt.setText(savedPassword);
             recordarCheckBox.setChecked(true);
         }
+
     }
 
     public void login(View view) {
@@ -84,6 +87,22 @@ public class LoginActivity extends Activity implements LoginCallback {
         }
 
         controladorUsuarios.login(username, password, this);
+
+        // Restaurar las preferencias actualizadas después de guardarlas
+        // Restaurar las preferencias actualizadas después de guardarlas
+        boolean rememberPref = sharedPreferences.getBoolean(KEY_REMEMBER, false);
+        if (rememberPref) {
+            String savedUsername = sharedPreferences.getString(KEY_USERNAME, "");
+            String savedPassword = sharedPreferences.getString(KEY_PASSWORD, "");
+            usuariotxt.setText(savedUsername);
+            contraseniatxt.setText(savedPassword);
+            recordarCheckBox.setChecked(true);
+        } else {
+            usuariotxt.setText("");
+            contraseniatxt.setText("");
+            recordarCheckBox.setChecked(false);
+        }
+
     }
 
     public void mostrarDialogoOlvidarContrasena(View view) {

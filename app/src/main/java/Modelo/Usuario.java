@@ -8,7 +8,6 @@ public class Usuario implements Serializable {
 
     @SerializedName("name")
     private String name;
-
     @SerializedName("email")
     private String email;
     @SerializedName("password")
