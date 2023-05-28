@@ -1,4 +1,4 @@
-package com.example.filmlove_front_register.Controlador;
+package Callback;
 
 public interface ResetPasswordCallback {
     void onResetPasswordSuccess(String password);

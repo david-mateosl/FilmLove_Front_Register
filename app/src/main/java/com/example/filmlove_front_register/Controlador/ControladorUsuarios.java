@@ -5,7 +5,6 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.filmlove_front_register.LoginActivity;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -13,8 +12,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 
+import Callback.LoginCallback;
+import Callback.RegistroCallback;
+import Callback.ResetPasswordCallback;
 import Modelo.Usuario;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -24,10 +27,10 @@ import okhttp3.Response;
 
 public class ControladorUsuarios {
 
-    private Usuario usuarioAux;
-    private String dbHost = Configuracion.DBHOST;
-    private String dbLogin = Configuracion.DBLOGIN;
-    private String dbforgotpwd = Configuracion.DBFORGOTPWD;
+    private final String dbHost = Configuracion.DBHOST;
+    private final String dbLogin = Configuracion.DBLOGIN;
+    private final String dbforgotpwd = Configuracion.DBFORGOTPWD;
+    private final String dbRegistro = Configuracion.DBREGISTRO;
 
     public void login(String usuario, String contrasena, LoginCallback callback) {
         class InsertarAsyncTask extends AsyncTask<String, Void, String> {
@@ -72,10 +75,9 @@ public class ControladorUsuarios {
                 if (respuesta != null) {
                     Gson gson = new Gson();
                     Usuario usuario = gson.fromJson(respuesta, Usuario.class);
-                    usuarioAux = usuario;
 
                     if (usuario != null) {
-                        String nombreUsuario = usuario.getUsername();
+                        usuario.getUsername();
                         if (callback != null) {
                             callback.onLoginSuccess(usuario);
                         }
@@ -96,7 +98,7 @@ public class ControladorUsuarios {
         task.execute(usuario, contrasena);
     }
 
-    public void solicitarRestablecimientoContrasena(View view,String email, final ResetPasswordCallback callback) {
+    public void solicitarRestablecimientoContrasena(View view, String email, final ResetPasswordCallback callback) {
         class SolicitarRestablecimientoAsyncTask extends AsyncTask<String, Void, Pair<String, String>> {
             @Override
             protected Pair<String, String> doInBackground(String... strings) {
@@ -119,19 +121,16 @@ public class ControladorUsuarios {
                         .post(requestBody)
                         .build();
 
+
                 Response response = client.newCall(request).execute();
-                Toast.makeText(view.getContext(),response.toString(), Toast.LENGTH_SHORT).show();
 
                 if (response.isSuccessful()) {
-                    // Obtener la contraseña del cuerpo de la respuesta
-                    String password = response.body().toString();
-                    Toast.makeText(view.getContext(), password, Toast.LENGTH_SHORT).show();
+                    String password = response.body().string();
                     return Pair.create("success", password);
                 } else {
                     return Pair.create("error", null);
                 }
             }
-
 
             @Override
             protected void onPostExecute(Pair<String, String> result) {
@@ -139,7 +138,6 @@ public class ControladorUsuarios {
 
                 if (result != null) {
                     if (result.first.equals("success")) {
-                        // Llamar al callback con la contraseña en caso de éxito
                         callback.onResetPasswordSuccess(result.second);
                     } else {
                         callback.onResetPasswordFailure();
@@ -154,7 +152,59 @@ public class ControladorUsuarios {
         task.execute(email);
     }
 
-    public Usuario getUsuarioLogeado() {
-        return usuarioAux;
+    public void registrarUsuario(String username, String email, String password, final RegistroCallback callback) {
+        class RegistroAsyncTask extends AsyncTask<Void, Void, Pair<String, String>> {
+            @Override
+            protected Pair<String, String> doInBackground(Void... voids) {
+                try {
+                    return registrarUsuario(username, email, password);
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+
+            private Pair<String, String> registrarUsuario(String username, String email, String password) throws Exception {
+                OkHttpClient client = new OkHttpClient();
+
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("name",   URLEncoder.encode(username, "UTF-8"))
+                        .add("email", URLDecoder.decode(email, "UTF-8"))
+                        .add("password", URLEncoder.encode(password, "UTF-8"))
+                        .build();
+
+                Request request = new Request.Builder()
+                        .url(dbHost + dbRegistro)  // Reemplaza "api/registrar-usuario" con la ruta correcta de tu API
+                        .post(requestBody)
+                        .build();
+
+                Response response = client.newCall(request).execute();
+
+                if (response.isSuccessful()) {
+                    String responseBody = response.body().string();
+                    // Aquí puedes procesar la respuesta de la API si es necesario
+                    return Pair.create("success", responseBody);
+                } else {
+                    return Pair.create("error", null);
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Pair<String, String> result) {
+                super.onPostExecute(result);
+
+                if (result != null) {
+                    if (result.first.equals("success")) {
+                        callback.onRegistroSuccess(result.second);
+                    } else {
+                        callback.onRegistroFailure();
+                    }
+                } else {
+                    callback.onRegistroFailure();
+                }
+            }
+        }
+
+        RegistroAsyncTask task = new RegistroAsyncTask();
+        task.execute();
     }
 }

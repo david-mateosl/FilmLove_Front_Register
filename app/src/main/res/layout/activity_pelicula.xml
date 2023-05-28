@@ -46,7 +46,7 @@
                     android:background="@drawable/edit_text_redondo" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profileImageView2"
+                    android:id="@+id/imagenPerfil"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center"
@@ -59,13 +59,15 @@
 
             <ListView
                 android:id="@+id/listaPeliculas"
-                android:layout_width="409dp"
-                android:layout_height="641dp"
+                android:layout_width="413dp"
+                android:layout_height="684dp"
                 android:layout_marginTop="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutTop" />
+                app:layout_constraintTop_toBottomOf="@+id/layoutTop"
+                app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

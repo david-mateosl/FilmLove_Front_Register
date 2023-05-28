@@ -20,7 +20,7 @@
                 android:layout_width="116dp"
                 android:layout_height="171dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/el_bueno_feo_malo"
+                tools:src="@drawable/el_bueno_feo_malo"
                 android:onClick="iniciarProduccion"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imagenPeliTres"
@@ -62,7 +62,6 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center"
-
                     android:layout_margin="17dp"
                     android:background="@drawable/foto_perfil_por_defecto"
                     app:civ_border_color="@color/orange"
@@ -75,77 +74,98 @@
                 android:layout_height="171dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/el_bueno_feo_malo"
                 android:onClick="iniciarProduccion"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/imagenPeliUno"
                 app:layout_constraintTop_toBottomOf="@+id/layoutTop"
-                app:layout_constraintVertical_bias="0.013" />
+                app:layout_constraintVertical_bias="0.013"
+                tools:src="@drawable/el_bueno_feo_malo" />
 
             <ImageView
                 android:id="@+id/imagenPeliDos"
                 android:layout_width="116dp"
                 android:layout_height="171dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/el_bueno_feo_malo"
+                android:layout_marginEnd="16dp"
                 android:onClick="iniciarProduccion"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imagenPeliTres"
-                app:layout_constraintHorizontal_bias="0.901"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.526"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutTop"
-                app:layout_constraintVertical_bias="0.013" />
+                app:layout_constraintVertical_bias="0.013"
+                tools:src="@drawable/el_bueno_feo_malo" />
 
             <ImageView
                 android:id="@+id/imagenPeliUno"
                 android:layout_width="116dp"
                 android:layout_height="171dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/el_bueno_feo_malo"
                 android:onClick="iniciarProduccion"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imagenPeliDos"
-                app:layout_constraintHorizontal_bias="0.516"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.05"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutTop"
-                app:layout_constraintVertical_bias="0.013" />
+                app:layout_constraintVertical_bias="0.013"
+                tools:src="@drawable/el_bueno_feo_malo" />
 
             <TextView
-                android:id="@+id/tituloPeliDos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/tituloPeliUno"
+                android:layout_width="116dp"
+                android:layout_height="44dp"
                 android:layout_marginBottom="44dp"
+                android:width="116dp"
+                android:ellipsize="none"
+                android:inputType="textMultiLine"
+                android:maxLines="2"
                 android:text="TextView"
+                android:textAlignment="center"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/galeriaProducciones"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.116"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imagenPeliUno"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/imagenPeliUno"
                 app:layout_constraintTop_toBottomOf="@+id/imagenPeliUno"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/tituloPeliUno"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/tituloPeliDos"
+                android:layout_width="116dp"
+                android:layout_height="45dp"
                 android:layout_marginBottom="44dp"
+                android:width="116dp"
+                android:ellipsize="none"
+                android:inputType="textMultiLine"
+                android:maxLines="2"
                 android:text="TextView"
+                android:textAlignment="center"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/galeriaProducciones"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imagenPeliDos"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/imagenPeliDos"
                 app:layout_constraintTop_toBottomOf="@+id/imagenPeliDos"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/tituloPeliTres"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="116dp"
+                android:layout_height="49dp"
                 android:layout_marginBottom="44dp"
+                android:width="116dp"
+                android:ellipsize="none"
+                android:inputType="textMultiLine"
+                android:maxLines="2"
                 android:text="TextView"
+                android:textAlignment="center"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/galeriaProducciones"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.866"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imagenPeliTres"
+                app:layout_constraintHorizontal_bias="0.915"
+                app:layout_constraintStart_toStartOf="@+id/imagenPeliTres"
                 app:layout_constraintTop_toBottomOf="@+id/imagenPeliTres"
                 app:layout_constraintVertical_bias="0.0" />
 
@@ -153,37 +173,50 @@
                 android:id="@+id/galeriaProducciones"
                 android:layout_width="264dp"
                 android:layout_height="182dp"
+                android:autoStart="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.575" />
+                app:layout_constraintVertical_bias="0.595" />
 
             <TextView
                 android:id="@+id/titutloSerie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="32dp"
                 android:text="TextView"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.395"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.741" />
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/imagenSerie"
+                app:layout_constraintEnd_toEndOf="@+id/barrascroll"
+                app:layout_constraintHorizontal_bias="0.077"
+                app:layout_constraintStart_toEndOf="@+id/imagenSerie"
+                app:layout_constraintTop_toTopOf="@+id/imagenSerie"
+                app:layout_constraintVertical_bias="0.0" />
 
-            <TextView
-                android:id="@+id/sinopsisSerie"
+            <ScrollView
+                android:id="@+id/barrascroll"
                 android:layout_width="245dp"
                 android:layout_height="139dp"
-                android:text="TextView"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/imagenSerie"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.517"
+                app:layout_constraintHorizontal_bias="0.441"
                 app:layout_constraintStart_toEndOf="@+id/imagenSerie"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.937" />
+                app:layout_constraintTop_toBottomOf="@+id/titutloSerie"
+                app:layout_constraintVertical_bias="0.794">
+
+                <TextView
+                    android:id="@+id/sinopsisSerie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="13dp"
+                    android:text="TextView" />
+
+            </ScrollView>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

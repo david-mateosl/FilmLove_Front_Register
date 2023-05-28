@@ -13,8 +13,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Configuracion {
 
-    static final String DBHOST = "https://6829-81-43-16-96.eu.ngrok.io/api";
+    static final String DBHOST = "https://db01-79-146-19-118.eu.ngrok.io/api/";
     static final String DBLOGIN = "login";
     static final String DBFORGOTPWD = "forgotten-password";
+    static final String DBREGISTRO = "users";
+    static final String DBPELICULASALEATORIAS = "get-random-films";
+    static final String DBSERIEALEATORIA = "get-random-series";
+    static final String DBPRODUCIONESALEATORIAS = "get-random-productions";
+    static final String DBBUSCARPRODUCION = "search-production";
+    static final String DBMOSTRARPELICULAS = "show-films";
+    static final String DBMOSTRARSERIES = "show-series";
+    static final String DBVOTAR = "vote-production";
+    static final String DBPRODUCIONESVOTADAS = "get-voted-production";
+    static final String DBCOMENTARPRODUCIONES = "comment-production";
+    static final String DBELIMINARFAV = "delete-fav";
 
 }

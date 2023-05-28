@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import Modelo.Usuario;
+
 // OnClickListenerHelper.java
 public class IniciarPantallas {
     public static final int REQUEST_CODE_IMAGE_PICK = 1;
@@ -36,6 +38,18 @@ public class IniciarPantallas {
         });
     }
 
+    public static void volverAInicio(View view, final Context context, Usuario usuario) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PrincipalActivity.class);
+                intent.putExtra("usuario", usuario);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
+    }
+
     public static void cerrarSesion(View view, final Context context) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,42 +60,46 @@ public class IniciarPantallas {
         });
     }
 
-    public static void favoritos(View view, final Context context) {
+    public static void favoritos(View view, final Context context,Usuario usuario) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent iFavoritos = new Intent(context, FavoritoActivity.class);
+                iFavoritos.putExtra("usuario",usuario);
                 context.startActivity(iFavoritos);
             }
         });
     }
 
-    public static void peliculas(View view, final Context context) {
+    public static void peliculas(View view, final Context context,Usuario usuario) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent iPeliculas = new Intent(context, PeliculasActivity.class);
+                iPeliculas.putExtra("usuario",usuario);
                 context.startActivity(iPeliculas);
             }
         });
     }
 
-    public static void series(View view, final Context context) {
+    public static void series(View view, final Context context,Usuario usuario) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent iSeries = new Intent(context, SeriesActivity.class);
+                iSeries.putExtra("usuario",usuario);
                 context.startActivity(iSeries);
                 ((Activity) context).finish();
             }
         });
     }
 
-    public static void generos(View view, final Context context) {
+    public static void generos(View view, final Context context, Usuario usuario) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent iGeneros = new Intent(context, GeneroActivity.class);
+                iGeneros.putExtra("usuario",usuario);
                 context.startActivity(iGeneros);
             }
         });

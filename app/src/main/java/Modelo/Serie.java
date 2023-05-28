@@ -1,8 +1,9 @@
 package Modelo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Serie {
+public class Serie implements Serializable {
 
     String titulo;
     String director;
@@ -12,7 +13,10 @@ public class Serie {
     int media_votos;
     int total_votos;
 
-    public Serie(String titulo, String director, Date premiere, String casting,String sinopsis, int media_votos, int total_votos) {
+    String nombreImagen;
+    String rutaImagen;
+
+    public Serie(String titulo, String director, Date premiere, String casting,String sinopsis, int media_votos, int total_votos, String nombreImagen,String rutaImagen) {
         this.titulo = titulo;
         this.director = director;
         this.premiere = premiere;
@@ -20,12 +24,43 @@ public class Serie {
         this.sinopsis = sinopsis;
         this.media_votos = media_votos;
         this.total_votos = total_votos;
+        this.nombreImagen = nombreImagen;
+        this.rutaImagen = rutaImagen;
     }
 
     public Serie(String titulo,String sinopsis, Date premiere) {
         this.titulo = titulo;
         this.premiere = premiere;
         this.sinopsis = sinopsis;
+    }
+    public Serie(String titulo,String rutaImagen, String sinopsis) {
+        this.titulo = titulo;
+        this.rutaImagen = rutaImagen;
+        this.sinopsis = sinopsis;
+    }
+
+    public Serie(String titulo, String synopsis, int media_votos, String rutaImagen) {
+        this.titulo = titulo;
+        this.sinopsis = synopsis;
+        this.media_votos = media_votos;
+        this.rutaImagen = rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
+    }
+
+    public String getNombreImagen() {
+        return nombreImagen;
+    }
+
+    public void setNombreImagen(String nombreImagen) {
+        this.nombreImagen = nombreImagen;
+    }
+
+
+    public String getRutaImagen() {
+        return rutaImagen;
     }
 
     public String getTitulo() {

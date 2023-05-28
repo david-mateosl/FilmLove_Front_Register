@@ -15,6 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!-- Agrega aquí el contenido principal de la pantalla -->
+
             <LinearLayout
                 android:id="@+id/layoutTop"
                 android:layout_width="411dp"
@@ -56,7 +58,7 @@
             </LinearLayout>
 
             <ListView
-                android:id="@+id/listaFavoritos"
+                android:id="@+id/listaSeries"
                 android:layout_width="413dp"
                 android:layout_height="684dp"
                 android:layout_marginTop="1dp"
@@ -81,6 +83,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:elevation="10dp">
+
+                <!-- Elementos del menú lateral -->
 
                 <TextView
                     android:id="@+id/menuitemcerrarsesion"

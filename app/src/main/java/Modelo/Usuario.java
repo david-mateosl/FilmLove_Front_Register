@@ -23,6 +23,12 @@ public class Usuario implements Serializable {
         this.rol = rol;
     }
 
+    public Usuario(String name, String email,String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
     public String getUsername() {
         return name;
     }

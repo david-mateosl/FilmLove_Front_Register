@@ -1,24 +1,16 @@
 package Modelo;
 
-public class Genero {
+import java.io.Serializable;
 
-    private int id;
+public class Genero implements Serializable {
+
     private String name;
 
     public Genero() {
     }
 
     public Genero(int id, String name) {
-        this.id = id;
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -31,6 +23,6 @@ public class Genero {
 
     @Override
     public String toString() {
-        return "Genero [id=" + id + ", name=" + name + "]";
+        return "Genero [name=" + name + "]";
     }
 }

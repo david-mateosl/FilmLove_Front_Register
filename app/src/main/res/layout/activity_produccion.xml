@@ -58,10 +58,10 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/imagenProducion"
                 android:layout_width="130dp"
                 android:layout_height="200dp"
-                android:background="@drawable/el_bueno_feo_malo"
+                android:src="@drawable/el_bueno_feo_malo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.056"
@@ -70,50 +70,68 @@
                 app:layout_constraintVertical_bias="0.308" />
 
             <TextView
-                android:id="@+id/premiere"
+                android:id="@+id/premiereProducion"
                 android:layout_width="48dp"
                 android:layout_height="21dp"
-                android:layout_marginStart="16dp"
                 android:background="@drawable/edit_text_redondo"
                 android:text="1966"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                app:layout_constraintBottom_toBottomOf="@+id/tituloPelicula"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tituloPelicula"
-                app:layout_constraintTop_toTopOf="@+id/tituloPelicula" />
+                app:layout_constraintBottom_toBottomOf="@+id/tituloProducion"
+                app:layout_constraintEnd_toEndOf="@+id/barraDeBotacion"
+                app:layout_constraintHorizontal_bias="0.943"
+                app:layout_constraintStart_toEndOf="@+id/tituloProducion"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
 
             <TextView
-                android:id="@+id/reparto"
+                android:id="@+id/tituloProducion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="El bueno el feo y el malo"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/imagenProducion"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/imagenProducion"
+                app:layout_constraintTop_toBottomOf="@+id/layoutTop"
+                app:layout_constraintVertical_bias="0.681" />
+
+            <TextView
+                android:id="@+id/repartoProducion"
                 android:layout_width="327dp"
                 android:layout_height="41dp"
+                android:background="@drawable/edit_text_redondo"
+                android:textAlignment="center"
+                android:gravity="center_vertical"
                 android:minHeight="48dp"
                 android:text="Clint Eastwood · Eli Wallach · Lee Van Cleef"
-                android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toTopOf="@+id/galeriaProduccion"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2"
-                app:layout_constraintVertical_bias="0.753" />
+                app:layout_constraintTop_toBottomOf="@+id/imagenProducion"
+                app:layout_constraintVertical_bias="0.782" />
 
             <TextView
-                android:id="@+id/votosMedios"
+                android:id="@+id/votosMediosProducion"
                 android:layout_width="45dp"
                 android:layout_height="21dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/boton_pressed"
                 android:text="5/5"
                 android:textAlignment="center"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.155"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2"
+                app:layout_constraintTop_toBottomOf="@+id/imagenProducion"
                 app:layout_constraintVertical_bias="0.002" />
 
             <ViewFlipper
@@ -124,13 +142,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2"
-                app:layout_constraintVertical_bias="0.564">
+                app:layout_constraintTop_toBottomOf="@+id/imagenProducion"
+                app:layout_constraintVertical_bias="0.81">
 
             </ViewFlipper>
 
             <TextView
-                android:id="@+id/generos"
+                android:id="@+id/generosProducion"
                 android:layout_width="132dp"
                 android:layout_height="54dp"
                 android:layout_marginStart="8dp"
@@ -139,66 +157,60 @@
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-                app:layout_constraintEnd_toStartOf="@+id/driector"
+                app:layout_constraintBottom_toBottomOf="@+id/imagenProducion"
+                app:layout_constraintEnd_toStartOf="@+id/driectorProducion"
                 app:layout_constraintHorizontal_bias="0.088"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toTopOf="@+id/imageView2"
+                app:layout_constraintStart_toEndOf="@+id/imagenProducion"
+                app:layout_constraintTop_toTopOf="@+id/imagenProducion"
                 app:layout_constraintVertical_bias="0.414" />
 
             <TextView
-                android:id="@+id/driector"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/driectorProducion"
+                android:layout_width="84dp"
+                android:layout_height="56dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="12dp"
                 android:text="Sergio Leone"
+                android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textStyle="italic"
-                app:layout_constraintBottom_toTopOf="@+id/sinopsis"
+                app:layout_constraintBottom_toTopOf="@+id/scrollbar"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barraDeBotacion"
-                app:layout_constraintVertical_bias="0.206" />
-
-            <TextView
-                android:id="@+id/tituloPelicula"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="El bueno el feo y el malo"
-                android:textColor="#FFFFFF"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/imageView2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.129"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutTop"
-                app:layout_constraintVertical_bias="0.59" />
+                app:layout_constraintHorizontal_bias="0.976"
+                app:layout_constraintStart_toEndOf="@+id/imagenProducion"
+                app:layout_constraintTop_toBottomOf="@+id/barraDeBotacion" />
 
             <RatingBar
                 android:id="@+id/barraDeBotacion"
                 android:layout_width="241dp"
                 android:layout_height="41dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                android:stepSize="1"
+                android:progressTint="#FFD700"
+                app:layout_constraintBottom_toBottomOf="@+id/imagenProducion"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toTopOf="@+id/imageView2"
-                app:layout_constraintVertical_bias="0.0"
-                android:progressTint="#FFD700" />
+                app:layout_constraintStart_toEndOf="@+id/imagenProducion"
+                app:layout_constraintTop_toTopOf="@+id/imagenProducion"
+                app:layout_constraintVertical_bias="0.0" />
 
-            <TextView
-                android:id="@+id/sinopsis"
+            <ScrollView
+                android:id="@id/scrollbar"
                 android:layout_width="225dp"
                 android:layout_height="193dp"
                 android:layout_marginStart="52dp"
                 android:layout_marginTop="12dp"
-                android:text="Los protagonistas son tres cazadores de recompensas que buscan un tesoro que ninguno de ellos puede encontrar sin la ayuda de los otros dos. Así que los tres colaboran entre sí, al menos en apariencia."
-                android:textColor="#FFFFFF"
-                android:gravity="start|top"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.093"
-                app:layout_constraintStart_toEndOf="@+id/votosMedios"
-                app:layout_constraintTop_toBottomOf="@+id/generos" />
+                app:layout_constraintHorizontal_bias="0.125"
+                app:layout_constraintStart_toEndOf="@+id/votosMediosProducion"
+                app:layout_constraintTop_toBottomOf="@+id/generosProducion">
+
+                <TextView
+                    android:id="@+id/sinopsisProducion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|top"
+                    android:text="Los protagonistas son tres cazadores de recompensas que buscan un tesoro que ninguno de ellos puede encontrar sin la ayuda de los otros dos. Así que los tres colaboran entre sí, al menos en apariencia."
+                    android:textColor="#FFFFFF" />
+            </ScrollView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

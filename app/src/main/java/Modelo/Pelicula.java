@@ -1,8 +1,9 @@
 package Modelo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Pelicula {
+public class Pelicula implements Serializable {
 
     String titulo;
     String director;
@@ -11,6 +12,9 @@ public class Pelicula {
     String sinopsis;
     int media_votos;
     int total_votos;
+
+    String nombreImagen;
+    String rutaImagen;
 
     public Pelicula(String titulo, String director, Date premiere, String casting,String sinopsis, int media_votos, int total_votos) {
         this.titulo = titulo;
@@ -22,10 +26,31 @@ public class Pelicula {
         this.total_votos = total_votos;
     }
 
+    public Pelicula(String titulo, String rutaImagen, String nombreImagen){
+        this.titulo = titulo;
+        this.rutaImagen = rutaImagen;
+        this.nombreImagen = nombreImagen;
+    }
+    public Pelicula(String titulo, String sinopsis, int media_votos, String rutaImagen){
+        this.titulo = titulo;
+        this.sinopsis = sinopsis;
+        this.rutaImagen = rutaImagen;
+        this.media_votos = media_votos;
+    }
+
     public Pelicula(String titulo,String sinopsis, Date premiere) {
         this.titulo = titulo;
         this.premiere = premiere;
         this.sinopsis = sinopsis;
+    }
+
+    public Pelicula(String titulo, String path) {
+        this.titulo = titulo;
+        this.rutaImagen = path;
+    }
+
+    public Pelicula() {
+
     }
 
     public String getTitulo() {
@@ -84,15 +109,34 @@ public class Pelicula {
         this.total_votos = total_votos;
     }
 
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
+    }
+
+    public String getNombreImagen() {
+        return nombreImagen;
+    }
+
+    public void setNombreImagen(String nombreImagen) {
+        this.nombreImagen = nombreImagen;
+    }
+
     @Override
     public String toString() {
         return "Pelicula{" +
                 "titulo='" + titulo + '\'' +
                 ", director='" + director + '\'' +
                 ", premiere=" + premiere +
+                ", sinopsis=" + sinopsis +
                 ", casting='" + casting + '\'' +
                 ", media_votos=" + media_votos +
                 ", total_votos=" + total_votos +
+                ", ruta imagen=" + rutaImagen +
+                ", nombre imagen=" + nombreImagen +
                 '}';
     }
 }

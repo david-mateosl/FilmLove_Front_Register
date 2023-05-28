@@ -1,57 +1,170 @@
 package com.example.filmlove_front_register;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.example.filmlove_front_register.Controlador.ControladorPeliculas;
+import com.example.filmlove_front_register.Controlador.ControladorProducion;
+import com.example.filmlove_front_register.R;
+import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import Callback.FilmsCallback;
+import Callback.ProductionCallback;
 import Modelo.Pelicula;
+import Modelo.Production;
+import Modelo.Usuario;
 
-public class PeliculasActivity extends AppCompatActivity {
+public class PeliculasActivity extends Activity {
 
-    ListView listView;
+    private ListView listView;
+    private List<Pelicula> peliculas;
+    private ControladorProducion controladorProducion = new ControladorProducion();
+    private ImageView imagenPerfil;
+    private TextView iniciarSesion;
+    private TextView favoritos;
+    private TextView pelicula;
+    private TextView series;
+    private TextView generos;
+    private Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pelicula);
 
+        usuario = (Usuario) getIntent().getSerializableExtra("usuario");
+        Toast.makeText(this, usuario.getUsername(), Toast.LENGTH_SHORT).show();
+
         listView = findViewById(R.id.listaPeliculas);
+        peliculas = new ArrayList<>();
 
-        // Obtén la lista de películas desde tu base de datos o cualquier otra fuente de datos
-        List<Pelicula> peliculas = obtenerPeliculasDesdeBaseDeDatos();
+        imagenPerfil = findViewById(R.id.imagenPerfil);
+        iniciarSesion = findViewById(R.id.menuitemcerrarsesion);
+        favoritos = findViewById(R.id.menuitemfavoritos);
+        pelicula = findViewById(R.id.menuitempeliculas);
+        series = findViewById(R.id.menuitemseries);
+        generos = findViewById(R.id.menuitemGeneros);
 
-        // Crea una instancia de un adaptador personalizado y asígnala al ListView
-        PeliculasAdapter adapter = new PeliculasAdapter(this, peliculas);
-        listView.setAdapter(adapter);
+        IniciarPantallas.menuFotoPerfil(imagenPerfil, PeliculasActivity.this);
+        IniciarPantallas.volverAInicio(iniciarSesion, PeliculasActivity.this, usuario);
+        IniciarPantallas.favoritos(favoritos, PeliculasActivity.this, usuario);
+        IniciarPantallas.peliculas(pelicula, PeliculasActivity.this, usuario);
+        IniciarPantallas.series(series, PeliculasActivity.this, usuario);
+        IniciarPantallas.generos(generos, PeliculasActivity.this, usuario);
+
+        obtenerPeliculasDesdeBaseDeDatos();
     }
 
-    private List<Pelicula> obtenerPeliculasDesdeBaseDeDatos() {
-        // Aquí puedes implementar la lógica para obtener las películas desde tu base de datos
-        // o cualquier otra fuente de datos y retornar una lista de objetos Pelicula
-        List<Pelicula> peliculas = new ArrayList<>();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        obtenerPeliculasDesdeBaseDeDatos();
+    }
 
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private void obtenerPeliculasDesdeBaseDeDatos() {
+        ControladorPeliculas controladorPeliculas = new ControladorPeliculas();
+        controladorPeliculas.mostrarTodasLasPelis(new FilmsCallback() {
+            @Override
+            public void onFilmsLoaded(List<Pelicula> peliculas) {
+                if (!peliculas.isEmpty()) {
+                    Pelicula primeraPelicula = peliculas.get(0);
 
-        try {
-            Date premiere1 = dateFormat.parse("2003-10-11");
-            Date premiere2 = dateFormat.parse("2003-10-11");
-            Date premiere3 = dateFormat.parse("2003-10-11");
+                }
 
-            peliculas.add(new Pelicula("Título 1", "Sinopsis 1", premiere1));
-            peliculas.add(new Pelicula("Título 2", "Sinopsis 2", premiere2));
-            peliculas.add(new Pelicula("Título 3", "Sinopsis 3", premiere3));
-        } catch (ParseException e) {
-            e.printStackTrace();
+                PeliculasActivity.this.peliculas = peliculas;
+
+                PeliculasAdapter adapter = new PeliculasAdapter(peliculas);
+
+                listView.setAdapter(adapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Pelicula pelicula = peliculas.get(position);
+                        buscarProduccionPorNombre(pelicula.getTitulo());
+                    }
+                });
+            }
+
+            @Override
+            public void onFilmsLoadError() {
+            }
+        });
+
+
+    }
+
+    private void buscarProduccionPorNombre(String nombre) {
+        controladorProducion.searchProduction(nombre, new ProductionCallback() {
+            @Override
+            public void onProductionSuccess(Production production) {
+                Toast.makeText(PeliculasActivity.this, production.getTitulo(), Toast.LENGTH_SHORT).show();
+                View view = PeliculasActivity.this.getCurrentFocus();
+                iniciarProduccion(view,production);
+            }
+
+            @Override
+            public void onProductionListLoaded(List<Production> productions) {
+
+            }
+
+            @Override
+            public void onProductionFailure() {
+                Toast.makeText(PeliculasActivity.this, "No se encontró ninguna producción", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void iniciarProduccion(View view,Production production) {
+        Intent intent = new Intent(PeliculasActivity.this, ProduccionActivity.class);
+        intent.putExtra("production", production);
+        intent.putExtra("usuario",usuario);
+        startActivity(intent);
+    }
+
+
+
+
+    private class PeliculasAdapter extends ArrayAdapter<Pelicula> {
+
+        public PeliculasAdapter(List<Pelicula> peliculas) {
+            super(PeliculasActivity.this, R.layout.formato_listview, peliculas);
         }
 
-        return peliculas;
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = convertView;
+            if (view == null) {
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                view = inflater.inflate(R.layout.formato_listview, parent, false);
+            }
+
+            Pelicula pelicula = getItem(position);
+
+            ImageView imageView = view.findViewById(R.id.imagenDeLaProducion);
+            TextView txtTituloProducion = view.findViewById(R.id.tituloDeProducion);
+            TextView txtValorancionMediaProducion = view.findViewById(R.id.valorancionMediaDeProducion);
+
+            Picasso.get().load(pelicula.getRutaImagen()).into(imageView);
+            txtTituloProducion.setText(pelicula.getTitulo());
+            txtValorancionMediaProducion.setText(String.valueOf(pelicula.getMedia_votos()));
+
+            return view;
+        }
     }
 }
