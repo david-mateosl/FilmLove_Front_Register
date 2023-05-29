@@ -13,17 +13,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.filmlove_front_register.Controlador.ControladorSeries;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.example.filmlove_front_register.Controlador.ControladorProducion;
+import com.example.filmlove_front_register.Controlador.ControladorSeries;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Callback.SeriesCallback;
 import Callback.ProductionCallback;
-import Modelo.Serie;
+import Callback.SeriesCallback;
 import Modelo.Production;
+import Modelo.Serie;
 import Modelo.Usuario;
 
 public class SeriesActivity extends Activity {
@@ -31,7 +34,9 @@ public class SeriesActivity extends Activity {
     private ListView listView;
     private List<Serie> series;
     private Usuario usuario;
-    ControladorProducion controladorProducion = new ControladorProducion();
+    private ControladorProducion controladorProducion;
+    ImageView imagenLogo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +44,23 @@ public class SeriesActivity extends Activity {
         setContentView(R.layout.activity_series);
 
         usuario = (Usuario) getIntent().getSerializableExtra("usuario");
+        controladorProducion = new ControladorProducion();
+        imagenLogo = findViewById(R.id.imagenLogo);
 
         listView = findViewById(R.id.listaSeries);
         series = new ArrayList<>();
 
         obtenerSeriesDesdeBaseDeDatos();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Serie serie = series.get(position);
+                buscarProduccionPorNombre(serie.getTitulo());
+            }
+        });
+
+        desplegarMenu();
     }
 
     @Override
@@ -54,7 +71,7 @@ public class SeriesActivity extends Activity {
 
     private void obtenerSeriesDesdeBaseDeDatos() {
         ControladorSeries controladorSeries = new ControladorSeries();
-        controladorSeries.obtenerSerieAleatoria(new SeriesCallback() {
+        controladorSeries.mostrarTodasLasSeries(new SeriesCallback() {
             @Override
             public void onSerieLoaded(Serie serie) {
 
@@ -63,27 +80,16 @@ public class SeriesActivity extends Activity {
             @Override
             public void onSeriesLoaded(List<Serie> series) {
                 if (!series.isEmpty()) {
-                    Serie primeraSerie = series.get(0);
+                    SeriesActivity.this.series = series;
                     System.out.println(series);
+                    SeriesAdapter adapter = new SeriesAdapter(series);
+                    listView.setAdapter(adapter);
                 }
-
-                SeriesActivity.this.series = series;
-
-                SeriesAdapter adapter = new SeriesAdapter(series);
-
-                listView.setAdapter(adapter);
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Serie serie = series.get(position);
-                        buscarProduccionPorNombre(serie.getTitulo());
-                    }
-                });
             }
 
             @Override
             public void onSeriesLoadError() {
+                Toast.makeText(SeriesActivity.this, "Error al cargar las series", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -93,13 +99,12 @@ public class SeriesActivity extends Activity {
             @Override
             public void onProductionSuccess(Production production) {
                 Toast.makeText(SeriesActivity.this, production.getTitulo(), Toast.LENGTH_SHORT).show();
-                View view = SeriesActivity.this.getCurrentFocus();
-                iniciarProduccion(view, production);
+                iniciarProduccion(production);
             }
 
             @Override
             public void onProductionListLoaded(List<Production> productions) {
-
+                // No es necesario implementar este método para la actividad de series
             }
 
             @Override
@@ -109,10 +114,10 @@ public class SeriesActivity extends Activity {
         });
     }
 
-    public void iniciarProduccion(View view, Production production) {
+    public void iniciarProduccion(Production production) {
         Intent intent = new Intent(SeriesActivity.this, ProduccionActivity.class);
         intent.putExtra("production", production);
-        intent.putExtra("usuario",usuario);
+        intent.putExtra("usuario", usuario);
         startActivity(intent);
     }
 
@@ -142,5 +147,16 @@ public class SeriesActivity extends Activity {
 
             return view;
         }
+    }
+
+    public void desplegarMenu(){
+        imagenLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
     }
 }

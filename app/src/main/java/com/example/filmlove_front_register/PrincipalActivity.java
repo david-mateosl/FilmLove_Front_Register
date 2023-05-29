@@ -14,6 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.bumptech.glide.Glide;
 import com.example.filmlove_front_register.Controlador.ControladorPeliculas;
 import com.example.filmlove_front_register.Controlador.ControladorProducion;
@@ -49,6 +52,7 @@ public class PrincipalActivity extends Activity implements SearchView.OnQueryTex
     TextView textoSerie;
     ImageView imagenSerie;
     TextView sinopsisSerie;
+    ImageView imagenLogo;
     Usuario usuario;
     ControladorPeliculas controladorPeliculas = new ControladorPeliculas();
     ControladorSeries controladorSeries = new ControladorSeries();
@@ -69,6 +73,7 @@ public class PrincipalActivity extends Activity implements SearchView.OnQueryTex
         peliculas = findViewById(R.id.menuitempeliculas);
         series = findViewById(R.id.menuitemseries);
         generos = findViewById(R.id.menuitemGeneros);
+        imagenLogo = findViewById(R.id.imagenLogo);
 
         textoPeliUno = findViewById(R.id.tituloPeliUno);
         textoPeliDos = findViewById(R.id.tituloPeliDos);
@@ -96,6 +101,8 @@ public class PrincipalActivity extends Activity implements SearchView.OnQueryTex
         IniciarPantallas.peliculas(peliculas, PrincipalActivity.this, usuario);
         IniciarPantallas.series(series, PrincipalActivity.this, usuario);
         IniciarPantallas.generos(generos, PrincipalActivity.this, usuario);
+
+        desplegarMenu();
     }
 
     @Override
@@ -258,4 +265,16 @@ public class PrincipalActivity extends Activity implements SearchView.OnQueryTex
                     .into(imagenPerfil);
         }
     }
+
+    public void desplegarMenu(){
+        imagenLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.filmlove_front_register.Controlador;
 
 import static com.example.filmlove_front_register.Controlador.Configuracion.DBBUSCARPRODUCION;
+import static com.example.filmlove_front_register.Controlador.Configuracion.DBBUSCARPRODUCIONESGENEROS;
 import static com.example.filmlove_front_register.Controlador.Configuracion.DBCOMENTARPRODUCIONES;
 import static com.example.filmlove_front_register.Controlador.Configuracion.DBELIMINARFAV;
 import static com.example.filmlove_front_register.Controlador.Configuracion.DBHOST;
@@ -8,11 +9,16 @@ import static com.example.filmlove_front_register.Controlador.Configuracion.DBPR
 import static com.example.filmlove_front_register.Controlador.Configuracion.DBVOTAR;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.Pair;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -24,6 +30,7 @@ import java.util.concurrent.Executors;
 
 import Callback.CommentCallback;
 import Callback.DeleteCallback;
+import Callback.GenderCallback;
 import Callback.ProductionCallback;
 import Callback.ProductionVoteCallback;
 import Callback.VotedProductionsCallback;
@@ -377,4 +384,101 @@ public class ControladorProducion {
         }
     }
 
+    public void getProductionsByGenre(String genre, ProductionCallback callback) {
+        class GetProductionsByGenreAsyncTask extends AsyncTask<String, Void, Pair<String, String>> {
+            @Override
+            protected Pair<String, String> doInBackground(String... params) {
+                try {
+                    return getProductionsByGenre(params[0]);
+                } catch (IOException e) {
+                    return null;
+                }
+            }
+
+            private Pair<String, String> getProductionsByGenre(String genre) throws IOException {
+                String apiUrl = DBHOST + DBBUSCARPRODUCIONESGENEROS;
+                URL url = new URL(apiUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setDoOutput(true);
+                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+                String encodedGenre = URLEncoder.encode(genre, "UTF-8");
+                String parameters = "gender=" + encodedGenre;
+
+                OutputStream outputStream = connection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                writer.write(parameters);
+                writer.flush();
+                writer.close();
+                outputStream.close();
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        response.append(line);
+                        System.out.println(line);
+                    }
+                    bufferedReader.close();
+                    return Pair.create("success", response.toString());
+                } else {
+                    return Pair.create("error", null);
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Pair<String, String> result) {
+                if (result != null) {
+                    if (result.first.equals("success")) {
+                        try {
+                            JSONArray jsonArray = new JSONArray(result.second);
+                            List<Production> productions = new ArrayList<>();
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                Production production = new Production();
+
+                                // Obtener los datos del objeto JSON y asignarlos a la producción
+                                String title = jsonObject.getString("title");
+                                String director = jsonObject.getString("director");
+                                String premiere = jsonObject.getString("premiere");
+                                String casting = jsonObject.getString("casting");
+                                String synopsis = jsonObject.getString("synopsis");
+                                int ratingAverage = jsonObject.getInt("rating_average");
+
+                                String mediaPath = jsonObject.getString("path");
+                                production.setTitulo(title);
+                                production.setDirector(director);
+                                production.setPremiere(premiere);
+                                production.setCasting(casting);
+                                production.setSinopsis(synopsis);
+                                production.setRating_medio(ratingAverage);
+
+                                Multimedia multimedia = new Multimedia();
+                                multimedia.setPath(mediaPath);
+                                production.setMultimedia(multimedia);
+
+                                productions.add(production);
+                            }
+
+                            callback.onProductionListLoaded(productions);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            callback.onProductionFailure();
+                        }
+                    } else {
+                        callback.onProductionFailure();
+                    }
+                } else {
+                    callback.onProductionFailure();
+                }
+            }
+        }
+
+        GetProductionsByGenreAsyncTask task = new GetProductionsByGenreAsyncTask();
+        task.execute(genre);
+    }
 }

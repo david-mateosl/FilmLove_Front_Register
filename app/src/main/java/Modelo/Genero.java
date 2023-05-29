@@ -1,5 +1,7 @@
 package Modelo;
 
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 public class Genero implements Serializable {
@@ -8,8 +10,7 @@ public class Genero implements Serializable {
 
     public Genero() {
     }
-
-    public Genero(int id, String name) {
+    public Genero(String name) {
         this.name = name;
     }
 

@@ -13,6 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.example.filmlove_front_register.Controlador.ControladorProducion;
 import com.squareup.picasso.Picasso;
 
@@ -45,6 +48,8 @@ public class ProduccionActivity extends Activity {
     private String rutaImagen1 = null;
     private String rutaImagen2 = null;
     private String rutaImagen3 = null;
+    ImageView imagenLogo;
+
 
     private ControladorProducion controladorProducion = new ControladorProducion();
 
@@ -55,6 +60,7 @@ public class ProduccionActivity extends Activity {
 
         Intent intent = getIntent();
         production = (Production) intent.getSerializableExtra("production");
+        System.out.println(production);
         usuario = (Usuario) intent.getSerializableExtra("usuario");
         generosProducionConcatenados = obtenerGenerosConcatenados(production.getGeneroList());
 
@@ -84,6 +90,7 @@ public class ProduccionActivity extends Activity {
         repartoProducion = findViewById(R.id.repartoProducion);
         imagenCaratula = findViewById(R.id.imagenProducion);
         votosMedios = findViewById(R.id.votosMediosProducion);
+        imagenLogo = findViewById(R.id.imagenLogo);
 
         tituloProducion.setText(production.getTitulo());
         directorProducion.setText(production.getDirector());
@@ -104,6 +111,7 @@ public class ProduccionActivity extends Activity {
         }
 
         votar();
+        desplegarMenu();
     }
 
     public String obtenerGenerosConcatenados(List<Genero> generosList) {
@@ -267,4 +275,17 @@ public class ProduccionActivity extends Activity {
             }
         });
     }
+
+    public void desplegarMenu(){
+        imagenLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
+    }
+
+
 }

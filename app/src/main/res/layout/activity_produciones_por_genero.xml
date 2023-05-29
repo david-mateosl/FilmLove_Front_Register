@@ -46,7 +46,7 @@
                     android:background="@drawable/edit_text_redondo" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imagenPerfil"
+                    android:id="@+id/profileImageView2"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center"
@@ -58,9 +58,9 @@
             </LinearLayout>
 
             <ListView
-                android:id="@+id/listaGener"
-                android:layout_width="407dp"
-                android:layout_height="785dp"
+                android:id="@+id/listaProducionesGeneros"
+                android:layout_width="413dp"
+                android:layout_height="684dp"
                 android:layout_marginTop="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

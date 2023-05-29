@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.filmlove_front_register.Controlador.ControladorProducion;
 import com.squareup.picasso.Picasso;
@@ -36,6 +40,8 @@ public class FavoritoActivity extends Activity {
     private Usuario usuario;
     ControladorProducion controladorProducion = new ControladorProducion();
 
+    ImageView imagenLogo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +49,14 @@ public class FavoritoActivity extends Activity {
 
         usuario = (Usuario) getIntent().getSerializableExtra("usuario");
         System.out.println(usuario);
+
         listView = findViewById(R.id.listaFavoritos);
+        imagenLogo = findViewById(R.id.imagenLogo);
+
         producciones = new ArrayList<>();
 
         obtenerProduccionesVotadasDesdeBaseDeDatos();
+        desplegarMenu();
     }
 
     @Override
@@ -202,6 +212,17 @@ public class FavoritoActivity extends Activity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void desplegarMenu(){
+        imagenLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
     }
 
 }

@@ -13,6 +13,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.example.filmlove_front_register.Controlador.ControladorUsuarios;
 import Callback.LoginCallback;
 import Callback.ResetPasswordCallback;

@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Configuracion {
 
-    static final String DBHOST = "https://db01-79-146-19-118.eu.ngrok.io/api/";
+    static final String DBHOST = "https://b1e4-79-146-19-118.eu.ngrok.io/api/";
     static final String DBLOGIN = "login";
     static final String DBFORGOTPWD = "forgotten-password";
     static final String DBREGISTRO = "users";
@@ -27,5 +27,8 @@ public class Configuracion {
     static final String DBPRODUCIONESVOTADAS = "get-voted-production";
     static final String DBCOMENTARPRODUCIONES = "comment-production";
     static final String DBELIMINARFAV = "delete-fav";
+    static final String DBGENEROS = "genders";
+
+    static final String DBBUSCARPRODUCIONESGENEROS = "get-productions-by-gender";
 
 }

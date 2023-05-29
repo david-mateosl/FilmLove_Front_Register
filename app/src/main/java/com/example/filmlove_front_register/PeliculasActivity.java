@@ -13,6 +13,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.example.filmlove_front_register.Controlador.ControladorPeliculas;
 import com.example.filmlove_front_register.Controlador.ControladorProducion;
 import com.example.filmlove_front_register.R;
@@ -41,6 +44,8 @@ public class PeliculasActivity extends Activity {
     private TextView series;
     private TextView generos;
     private Usuario usuario;
+    ImageView imagenLogo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,7 @@ public class PeliculasActivity extends Activity {
         pelicula = findViewById(R.id.menuitempeliculas);
         series = findViewById(R.id.menuitemseries);
         generos = findViewById(R.id.menuitemGeneros);
+        imagenLogo = findViewById(R.id.imagenLogo);
 
         IniciarPantallas.menuFotoPerfil(imagenPerfil, PeliculasActivity.this);
         IniciarPantallas.volverAInicio(iniciarSesion, PeliculasActivity.this, usuario);
@@ -68,6 +74,7 @@ public class PeliculasActivity extends Activity {
         IniciarPantallas.generos(generos, PeliculasActivity.this, usuario);
 
         obtenerPeliculasDesdeBaseDeDatos();
+        desplegarMenu();
     }
 
     @Override
@@ -166,5 +173,16 @@ public class PeliculasActivity extends Activity {
 
             return view;
         }
+    }
+
+    public void desplegarMenu(){
+        imagenLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
     }
 }

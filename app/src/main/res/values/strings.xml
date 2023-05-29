@@ -60,4 +60,5 @@
     <string name="inicio">INICIO</string>
     <string name="peliculas">PELICULAS</string>
     <string name="title_activity_produccion">ProduccionActivity</string>
+    <string name="title_activity_produciones_por_genero">ProducionesPorGeneroActivity</string>
 </resources>
