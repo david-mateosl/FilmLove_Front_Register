@@ -246,7 +246,7 @@ public class LoginActivity extends Activity implements LoginCallback {
     @Override
     public void onLoginSuccess(Usuario usuario) {
         Intent iPrincipal = new Intent(this, PrincipalActivity.class);
-        iPrincipal.putExtra("usuario", usuario); // Pasar el objeto usuario a través del Intent
+        iPrincipal.putExtra("usuario", usuario);
         startActivity(iPrincipal);
     }
 

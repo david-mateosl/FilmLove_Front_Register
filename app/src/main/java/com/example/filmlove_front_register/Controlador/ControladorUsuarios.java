@@ -75,7 +75,6 @@ public class ControladorUsuarios {
                 if (respuesta != null) {
                     Gson gson = new Gson();
                     Usuario usuario = gson.fromJson(respuesta, Usuario.class);
-
                     if (usuario != null) {
                         usuario.getUsername();
                         if (callback != null) {
