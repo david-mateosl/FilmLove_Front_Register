@@ -46,7 +46,7 @@
                     android:background="@drawable/edit_text_redondo" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imagenPerfil"
+                    android:id="@+id/imagenPerfilG"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center"
@@ -87,7 +87,7 @@
                 <!-- Elementos del menú lateral -->
 
                 <TextView
-                    android:id="@+id/menuitemcerrarsesion"
+                    android:id="@+id/menuitemInicioSesionGeneros"
                     android:layout_width="match_parent"
                     android:layout_height="350px"
                     android:layout_marginStart="3dp"

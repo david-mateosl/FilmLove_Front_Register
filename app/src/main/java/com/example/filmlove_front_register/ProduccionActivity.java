@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -29,7 +30,7 @@ import Modelo.Multimedia;
 import Modelo.Production;
 import Modelo.Usuario;
 
-public class ProduccionActivity extends Activity {
+public class ProduccionActivity extends Activity implements SearchView.OnQueryTextListener {
 
     private ViewFlipper v_fliper;
     private RatingBar ratingBar;
@@ -49,6 +50,13 @@ public class ProduccionActivity extends Activity {
     private String rutaImagen2 = null;
     private String rutaImagen3 = null;
     ImageView imagenLogo;
+    private ImageView imagenPerfil;
+    private TextView iniciarSesion;
+    private TextView favoritos;
+    private TextView pelicula;
+    private TextView seriesBoton;
+    private TextView generos;
+    SearchView barraBusqueda;
 
 
     private ControladorProducion controladorProducion = new ControladorProducion();
@@ -63,6 +71,8 @@ public class ProduccionActivity extends Activity {
         System.out.println(production);
         usuario = (Usuario) intent.getSerializableExtra("usuario");
         generosProducionConcatenados = obtenerGenerosConcatenados(production.getGeneroList());
+        barraBusqueda = findViewById(R.id.barraDeBusqueda);
+        barraBusqueda.setOnQueryTextListener(this);
 
         List<Multimedia> multimediaList = production.getMultimediaList();
         for (Multimedia multimedia : multimediaList) {
@@ -91,6 +101,20 @@ public class ProduccionActivity extends Activity {
         imagenCaratula = findViewById(R.id.imagenProducion);
         votosMedios = findViewById(R.id.votosMediosProducion);
         imagenLogo = findViewById(R.id.imagenLogo);
+        imagenPerfil = findViewById(R.id.imagenPerfilP);
+        iniciarSesion = findViewById(R.id.menuitemcerrarsesion);
+        favoritos = findViewById(R.id.menuitemfavoritos);
+        pelicula = findViewById(R.id.menuitempeliculas);
+        seriesBoton = findViewById(R.id.menuitemseries);
+        generos = findViewById(R.id.menuitemGeneros);
+        imagenLogo = findViewById(R.id.imagenLogo);
+
+        IniciarPantallas.menuFotoPerfil(imagenPerfil, ProduccionActivity.this);
+        IniciarPantallas.volverAInicio(iniciarSesion, ProduccionActivity.this, usuario);
+        IniciarPantallas.favoritos(favoritos, ProduccionActivity.this, usuario);
+        IniciarPantallas.peliculas(pelicula, ProduccionActivity.this, usuario);
+        IniciarPantallas.series(seriesBoton, ProduccionActivity.this, usuario);
+        IniciarPantallas.generos(generos, ProduccionActivity.this, usuario);
 
         tituloProducion.setText(production.getTitulo());
         directorProducion.setText(production.getDirector());
@@ -131,6 +155,17 @@ public class ProduccionActivity extends Activity {
         return generosString.toString();
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        buscarProduccionPorNombre(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
     public void votar() {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -151,6 +186,7 @@ public class ProduccionActivity extends Activity {
                             public void onCommentSuccess(String message) {
                                 String mensaje = production.getTitulo() + " fue votada exitosamente";
                                 Toast.makeText(ProduccionActivity.this, mensaje, Toast.LENGTH_SHORT).show();
+                                actualizarVotosMedios(); // Actualizar la votación media después de votar y comentar
                             }
 
                             @Override
@@ -165,7 +201,7 @@ public class ProduccionActivity extends Activity {
                             public void onVoteProductionSuccess(String response) {
                                 String mensaje = production.getTitulo() + " fue votada exitosamente";
                                 Toast.makeText(ProduccionActivity.this, mensaje, Toast.LENGTH_SHORT).show();
-                                buscarProduccionPorNombre(production.getTitulo());
+                                actualizarVotosMedios(); // Actualizar la votación media después de votar y comentar
                             }
 
                             @Override

@@ -46,7 +46,7 @@
                     android:background="@drawable/edit_text_redondo" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profileImageView2"
+                    android:id="@+id/imagenPerfilP"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center"
@@ -79,15 +79,15 @@
                 android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="@+id/tituloProducion"
                 app:layout_constraintEnd_toEndOf="@+id/barraDeBotacion"
-                app:layout_constraintHorizontal_bias="0.943"
+                app:layout_constraintHorizontal_bias="0.942"
                 app:layout_constraintStart_toEndOf="@+id/tituloProducion"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintVertical_bias="0.881" />
 
             <TextView
                 android:id="@+id/tituloProducion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="266dp"
+                android:layout_height="53dp"
                 android:text="El bueno el feo y el malo"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
@@ -97,7 +97,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/imagenProducion"
                 app:layout_constraintTop_toBottomOf="@+id/layoutTop"
-                app:layout_constraintVertical_bias="0.681" />
+                app:layout_constraintVertical_bias="0.652" />
 
             <TextView
                 android:id="@+id/repartoProducion"

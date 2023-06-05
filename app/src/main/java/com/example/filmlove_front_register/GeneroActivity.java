@@ -12,28 +12,40 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.filmlove_front_register.Controlador.ControladorGeneros;
+import com.example.filmlove_front_register.Controlador.ControladorProducion;
 
 import java.text.Normalizer;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import Callback.GenderCallback;
+import Callback.ProductionCallback;
 import Modelo.Genero;
+import Modelo.Production;
 import Modelo.Usuario;
 
-public class GeneroActivity extends Activity implements GenderCallback {
+public class GeneroActivity extends Activity implements GenderCallback, SearchView.OnQueryTextListener {
 
     private ListView listaGeneros;
     private ArrayAdapter<Genero> generoAdapter;
+    private ImageView imagenPerfil;
+    private TextView iniciarSesion;
+    private TextView favoritos;
+    private TextView pelicula;
+    private TextView seriesBoton;
+    private TextView generos;
 
     private Usuario usuario;
     ImageView imagenLogo;
+    SearchView barraBusqueda;
 
 
     @Override
@@ -45,6 +57,24 @@ public class GeneroActivity extends Activity implements GenderCallback {
 
         listaGeneros = findViewById(R.id.listaGener);
         imagenLogo = findViewById(R.id.imagenLogo);
+
+        barraBusqueda = findViewById(R.id.barraDeBusqueda);
+        barraBusqueda.setOnQueryTextListener(this);
+
+        imagenPerfil = findViewById(R.id.imagenPerfilG);
+        iniciarSesion = findViewById(R.id.menuitemInicioSesionGeneros);
+        favoritos = findViewById(R.id.menuitemfavoritos);
+        pelicula = findViewById(R.id.menuitempeliculas);
+        seriesBoton = findViewById(R.id.menuitemseries);
+        generos = findViewById(R.id.menuitemGeneros);
+        imagenLogo = findViewById(R.id.imagenLogo);
+
+        IniciarPantallas.menuFotoPerfil(imagenPerfil, GeneroActivity.this);
+        IniciarPantallas.volverAInicio(iniciarSesion, GeneroActivity.this, usuario);
+        IniciarPantallas.favoritos(favoritos, GeneroActivity.this, usuario);
+        IniciarPantallas.peliculas(pelicula, GeneroActivity.this, usuario);
+        IniciarPantallas.series(seriesBoton, GeneroActivity.this, usuario);
+        IniciarPantallas.generos(generos, GeneroActivity.this, usuario);
         generoAdapter = new ArrayAdapter<Genero>(this, R.layout.formato_listview_generos) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -93,6 +123,49 @@ public class GeneroActivity extends Activity implements GenderCallback {
         ControladorGeneros controladorGeneros = new ControladorGeneros();
         controladorGeneros.showGenders(this);
         desplegarMenu();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        buscarProduccionPorNombre(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    private void buscarProduccionPorNombre(String nombre) {
+        ControladorProducion controladorProducion = new ControladorProducion();
+        controladorProducion.searchProduction(nombre, new ProductionCallback() {
+            @Override
+            public void onProductionSuccess(Production production) {
+                Toast.makeText(GeneroActivity.this, production.getTitulo(), Toast.LENGTH_SHORT).show();
+                View view = GeneroActivity.this.getCurrentFocus();
+                iniciarProduccion(view,production);
+            }
+
+            @Override
+            public void onProductionListLoaded(List<Production> productions) {
+
+            }
+
+            @Override
+            public void onProductionFailure() {
+                Toast.makeText(GeneroActivity.this, "No se encontró ninguna producción", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void iniciarProduccion(View view, Production production) {
+        System.out.println(production);
+        if (production != null) {
+            Intent intent = new Intent(GeneroActivity.this, ProduccionActivity.class);
+            intent.putExtra("production", production);
+            intent.putExtra("usuario", usuario);
+            startActivity(intent);
+        }
     }
 
     @Override

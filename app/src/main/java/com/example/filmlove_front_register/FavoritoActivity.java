@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +34,7 @@ import Modelo.Multimedia;
 import Modelo.Production;
 import Modelo.Usuario;
 
-public class FavoritoActivity extends Activity {
+public class FavoritoActivity extends Activity implements SearchView.OnQueryTextListener {
 
     private ListView listView;
     private List<Production> producciones;
@@ -41,6 +42,13 @@ public class FavoritoActivity extends Activity {
     ControladorProducion controladorProducion = new ControladorProducion();
 
     ImageView imagenLogo;
+    private ImageView imagenPerfil;
+    private TextView iniciarSesion;
+    private TextView favoritos;
+    private TextView pelicula;
+    private TextView seriesBoton;
+    private TextView generos;
+    private SearchView barraBusqueda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +61,39 @@ public class FavoritoActivity extends Activity {
         listView = findViewById(R.id.listaFavoritos);
         imagenLogo = findViewById(R.id.imagenLogo);
 
+        barraBusqueda = findViewById(R.id.barraDeBusqueda);
+        barraBusqueda.setOnQueryTextListener(this);
+
+        imagenPerfil = findViewById(R.id.imagenPerfilF);
+        iniciarSesion = findViewById(R.id.menuitemcerrarsesion);
+        favoritos = findViewById(R.id.menuitemfavoritos);
+        pelicula = findViewById(R.id.menuitempeliculas);
+        seriesBoton = findViewById(R.id.menuitemseries);
+        generos = findViewById(R.id.menuitemGeneros);
+        imagenLogo = findViewById(R.id.imagenLogo);
+
+        IniciarPantallas.menuFotoPerfil(imagenPerfil, FavoritoActivity.this);
+        IniciarPantallas.volverAInicio(iniciarSesion, FavoritoActivity.this, usuario);
+        IniciarPantallas.favoritos(favoritos, FavoritoActivity.this, usuario);
+        IniciarPantallas.peliculas(pelicula, FavoritoActivity.this, usuario);
+        IniciarPantallas.series(seriesBoton, FavoritoActivity.this, usuario);
+        IniciarPantallas.generos(generos, FavoritoActivity.this, usuario);
+
         producciones = new ArrayList<>();
 
         obtenerProduccionesVotadasDesdeBaseDeDatos();
         desplegarMenu();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        buscarProduccionPorNombre(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 
     @Override
@@ -167,8 +204,40 @@ public class FavoritoActivity extends Activity {
             txtValorancionMediaProducion.setText(String.valueOf(production.getVoto().getVoto()));
             txtComentario.setText(production.getComentario().getComentario());
 
+            int rating = Integer.parseInt(String.valueOf(production.getVoto().getVoto()));
+            updateVotosMedios(rating, txtValorancionMediaProducion);
+
             return view;
         }
+    }
+
+    private void updateVotosMedios(float ratingMedio, TextView txtValorancionMediaProducion) {
+        int roundedRating = Math.round(ratingMedio);
+        txtValorancionMediaProducion.setText(String.valueOf(roundedRating));
+
+        int colorId;
+        switch (roundedRating) {
+            case 0:
+                colorId = R.drawable.fondo_votos_medios_1;
+                break;
+            case 1:
+                colorId = R.drawable.fondo_votos_medios_1;
+                break;
+            case 2:
+                colorId = R.drawable.fondo_votos_medios_2;
+                break;
+            case 3:
+                colorId = R.drawable.fondo_votos_medios_3;
+                break;
+            case 4:
+                colorId = R.drawable.fondo_votos_medios_4;
+                break;
+            default:
+                colorId = R.drawable.fondo_votos_medios_5;
+                break;
+        }
+
+        txtValorancionMediaProducion.setBackgroundResource(colorId);
     }
 
     private void eliminarDeFavoritos(Production production) {

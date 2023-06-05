@@ -1,10 +1,16 @@
 package com.example.filmlove_front_register;
 
+import static com.example.filmlove_front_register.IniciarPantallas.REQUEST_CODE_IMAGE_PICK;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
@@ -14,16 +20,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.filmlove_front_register.Controlador.ControladorPeliculas;
 import com.example.filmlove_front_register.Controlador.ControladorProducion;
 import com.example.filmlove_front_register.Controlador.ControladorSeries;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import Callback.FilmsCallback;
@@ -57,6 +70,8 @@ public class PrincipalActivity extends Activity implements SearchView.OnQueryTex
     ControladorPeliculas controladorPeliculas = new ControladorPeliculas();
     ControladorSeries controladorSeries = new ControladorSeries();
     ControladorProducion controladorProducion = new ControladorProducion();
+    UsuarioDAO usuarioDAO;
+    byte[] imagenPerfilBytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +80,9 @@ public class PrincipalActivity extends Activity implements SearchView.OnQueryTex
 
         usuario = (Usuario) getIntent().getSerializableExtra("usuario");
         System.out.println(usuario);
+
         barraBusqueda = findViewById(R.id.barraDeBusqueda);
+        barraBusqueda.setOnQueryTextListener(this);
 
         imagenPerfil = findViewById(R.id.imagenPerfil);
         cerrarSesion = findViewById(R.id.menuitemcerrarsesion);
@@ -89,8 +106,6 @@ public class PrincipalActivity extends Activity implements SearchView.OnQueryTex
 
         v_fliper = findViewById(R.id.galeriaProducciones);
 
-        barraBusqueda.setOnQueryTextListener(this);
-
         cargarPeliculasAleatorias();
         cargarSerieAleatoria();
         cargarProduccionesAleatorias();
@@ -103,6 +118,48 @@ public class PrincipalActivity extends Activity implements SearchView.OnQueryTex
         IniciarPantallas.generos(generos, PrincipalActivity.this, usuario);
 
         desplegarMenu();
+
+        usuarioDAO = new UsuarioDAO(this); // Crear una instancia de UsuarioDAO
+
+        if (usuario != null) {
+            cargarDatosUsuario();
+        }
+
+        imagenPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Abrir la galería de imágenes para seleccionar una foto de perfil
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, REQUEST_CODE_IMAGE_PICK);
+            }
+        });
+    }
+
+    private void cargarDatosUsuario() {
+        byte[] imagenPerfilBytes = usuarioDAO.obtenerImagenPerfil(usuario.getUsername());
+        if (imagenPerfilBytes != null) {
+            Bitmap imagenBitmap = BitmapFactory.decodeByteArray(imagenPerfilBytes, 0, imagenPerfilBytes.length);
+            imagenPerfil.setImageBitmap(imagenBitmap);
+        } else {
+            imagenPerfil.setImageResource(R.drawable.foto_perfil_por_defecto);
+        }
+    }
+
+
+    private void guardarImagenPerfil(Uri uri, byte[] imagenPerfilBytes) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            imagenPerfil.setImageBitmap(bitmap);
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            byte[] imagenBytes = outputStream.toByteArray();
+
+            usuarioDAO.guardarImagenPerfil(usuario.getUsername(), imagenBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -254,17 +311,37 @@ public class PrincipalActivity extends Activity implements SearchView.OnQueryTex
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_IMAGE_PICK && resultCode == RESULT_OK && data != null) {
+            Uri selectedImageUri = data.getData();
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
-        if (requestCode == IniciarPantallas.REQUEST_CODE_IMAGE_PICK && resultCode == RESULT_OK && data != null) {
-            Uri imageUri = data.getData();
-            Glide.with(this)
-                    .load(imageUri)
-                    .circleCrop()
-                    .into(imagenPerfil);
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                byte[] imagenBytes = outputStream.toByteArray();
+
+                guardarImagenPerfil(selectedImageUri, imagenBytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
+
+
+    private byte[] convertInputStreamToByteArray(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
+    }
+
 
     public void desplegarMenu(){
         imagenLogo.setOnClickListener(new View.OnClickListener() {

@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +33,7 @@ import Modelo.Pelicula;
 import Modelo.Production;
 import Modelo.Usuario;
 
-public class PeliculasActivity extends Activity {
+public class PeliculasActivity extends Activity implements SearchView.OnQueryTextListener {
 
     private ListView listView;
     private List<Pelicula> peliculas;
@@ -46,6 +47,8 @@ public class PeliculasActivity extends Activity {
     private Usuario usuario;
     ImageView imagenLogo;
 
+    SearchView barraBusqueda;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,9 @@ public class PeliculasActivity extends Activity {
 
         usuario = (Usuario) getIntent().getSerializableExtra("usuario");
         Toast.makeText(this, usuario.getUsername(), Toast.LENGTH_SHORT).show();
+
+        barraBusqueda = findViewById(R.id.barraDeBusqueda);
+        barraBusqueda.setOnQueryTextListener(this);
 
         listView = findViewById(R.id.listaPeliculas);
         peliculas = new ArrayList<>();
@@ -75,6 +81,17 @@ public class PeliculasActivity extends Activity {
 
         obtenerPeliculasDesdeBaseDeDatos();
         desplegarMenu();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        buscarProduccionPorNombre(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 
     @Override
@@ -166,14 +183,49 @@ public class PeliculasActivity extends Activity {
             ImageView imageView = view.findViewById(R.id.imagenDeLaProducion);
             TextView txtTituloProducion = view.findViewById(R.id.tituloDeProducion);
             TextView txtValorancionMediaProducion = view.findViewById(R.id.valorancionMediaDeProducion);
+            TextView txtsinopsis = view.findViewById(R.id.txtSinopsis);
 
             Picasso.get().load(pelicula.getRutaImagen()).into(imageView);
             txtTituloProducion.setText(pelicula.getTitulo());
-            txtValorancionMediaProducion.setText(String.valueOf(pelicula.getMedia_votos()));
+
+            float rating = pelicula.getMedia_votos();
+            updateVotosMedios(rating, txtValorancionMediaProducion);
+
+            txtsinopsis.setText(String.valueOf(pelicula.getSinopsis()));
 
             return view;
         }
     }
+
+    private void updateVotosMedios(float ratingMedio, TextView txtValorancionMediaProducion) {
+        int roundedRating = Math.round(ratingMedio);
+        txtValorancionMediaProducion.setText(String.valueOf(roundedRating));
+
+        int colorId;
+        switch (roundedRating) {
+            case 0:
+                colorId = R.drawable.fondo_votos_medios_1;
+                break;
+            case 1:
+                colorId = R.drawable.fondo_votos_medios_1;
+                break;
+            case 2:
+                colorId = R.drawable.fondo_votos_medios_2;
+                break;
+            case 3:
+                colorId = R.drawable.fondo_votos_medios_3;
+                break;
+            case 4:
+                colorId = R.drawable.fondo_votos_medios_4;
+                break;
+            default:
+                colorId = R.drawable.fondo_votos_medios_5;
+                break;
+        }
+
+        txtValorancionMediaProducion.setBackgroundResource(colorId);
+    }
+
 
     public void desplegarMenu(){
         imagenLogo.setOnClickListener(new View.OnClickListener() {

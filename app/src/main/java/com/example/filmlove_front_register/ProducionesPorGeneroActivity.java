@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,12 +26,19 @@ import Callback.ProductionCallback;
 import Modelo.Production;
 import Modelo.Usuario;
 
-public class ProducionesPorGeneroActivity extends Activity implements ProductionCallback {
+public class ProducionesPorGeneroActivity extends Activity implements ProductionCallback, SearchView.OnQueryTextListener {
 
     private ListView listViewProductions;
     private ControladorProducion controladorProducion;
     private Usuario usuario;
+    private ImageView imagenPerfil;
+    private TextView iniciarSesion;
+    private TextView favoritos;
+    private TextView pelicula;
+    private TextView series;
+    private TextView generos;
     ImageView imagenLogo;
+    SearchView barraBusqueda;
 
 
     @Override
@@ -39,8 +47,17 @@ public class ProducionesPorGeneroActivity extends Activity implements Production
         setContentView(R.layout.activity_produciones_por_genero);
         controladorProducion = new ControladorProducion();
 
+        barraBusqueda = findViewById(R.id.barraDeBusqueda);
+        barraBusqueda.setOnQueryTextListener(this);
+
         listViewProductions = findViewById(R.id.listaProducionesGeneros);
         imagenLogo = findViewById(R.id.imagenLogo);
+        imagenPerfil = findViewById(R.id.imagenPefilGeneros);
+        iniciarSesion = findViewById(R.id.menuitemcerrarsesion);
+        favoritos = findViewById(R.id.menuitemfavoritos);
+        pelicula = findViewById(R.id.menuitempeliculas);
+        series = findViewById(R.id.menuitemseries);
+        generos = findViewById(R.id.menuitemGeneros);
 
         usuario = (Usuario) getIntent().getSerializableExtra("usuario");
         Toast.makeText(this, usuario.getUsername(), Toast.LENGTH_SHORT).show();
@@ -50,6 +67,13 @@ public class ProducionesPorGeneroActivity extends Activity implements Production
 
         getProductionsByGenre(nombreGenero);
 
+        IniciarPantallas.menuFotoPerfil(imagenPerfil, ProducionesPorGeneroActivity.this);
+        IniciarPantallas.volverAInicio(iniciarSesion, ProducionesPorGeneroActivity.this, usuario);
+        IniciarPantallas.favoritos(favoritos, ProducionesPorGeneroActivity.this, usuario);
+        IniciarPantallas.peliculas(pelicula, ProducionesPorGeneroActivity.this, usuario);
+        IniciarPantallas.series(series, ProducionesPorGeneroActivity.this, usuario);
+        IniciarPantallas.generos(generos, ProducionesPorGeneroActivity.this, usuario);
+
         listViewProductions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -58,6 +82,17 @@ public class ProducionesPorGeneroActivity extends Activity implements Production
             }
         });
         desplegarMenu();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        buscarProduccionPorNombre(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 
     private void buscarProduccionPorNombre(String nombre) {
@@ -134,10 +169,15 @@ public class ProducionesPorGeneroActivity extends Activity implements Production
             ImageView imageView = view.findViewById(R.id.imagenDeLaProducion);
             TextView txtTituloProducion = view.findViewById(R.id.tituloDeProducion);
             TextView txtValorancionMediaProducion = view.findViewById(R.id.valorancionMediaDeProducion);
+            TextView txtsinopsis = view.findViewById(R.id.txtSinopsis);
 
             Picasso.get().load(production.getMultimedia().getPath()).into(imageView);
             txtTituloProducion.setText(production.getTitulo());
-            txtValorancionMediaProducion.setText(String.valueOf(production.getRating_medio()));
+
+            float rating = production.getRating_medio();
+            updateVotosMedios(rating, txtValorancionMediaProducion);
+
+            txtsinopsis.setText(production.getSinopsis());
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -149,6 +189,35 @@ public class ProducionesPorGeneroActivity extends Activity implements Production
 
             return view;
         }
+    }
+
+    private void updateVotosMedios(float ratingMedio, TextView txtValorancionMediaProducion) {
+        int roundedRating = Math.round(ratingMedio);
+        txtValorancionMediaProducion.setText(String.valueOf(roundedRating));
+
+        int colorId;
+        switch (roundedRating) {
+            case 0:
+                colorId = R.drawable.fondo_votos_medios_1;
+                break;
+            case 1:
+                colorId = R.drawable.fondo_votos_medios_1;
+                break;
+            case 2:
+                colorId = R.drawable.fondo_votos_medios_2;
+                break;
+            case 3:
+                colorId = R.drawable.fondo_votos_medios_3;
+                break;
+            case 4:
+                colorId = R.drawable.fondo_votos_medios_4;
+                break;
+            default:
+                colorId = R.drawable.fondo_votos_medios_5;
+                break;
+        }
+
+        txtValorancionMediaProducion.setBackgroundResource(colorId);
     }
 
     public void desplegarMenu(){

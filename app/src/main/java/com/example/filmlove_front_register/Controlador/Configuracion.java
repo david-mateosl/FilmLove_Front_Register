@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Configuracion {
 
     static final String API = "/api/";
-    static final String DBHOST = "https://c15f-79-146-19-118.eu.ngrok.io" + API;
+    static final String DBHOST = "https://filmlove.up.railway.app" + API;
     static final String DBLOGIN = "login";
     static final String DBFORGOTPWD = "forgotten-password";
     static final String DBREGISTRO = "users";

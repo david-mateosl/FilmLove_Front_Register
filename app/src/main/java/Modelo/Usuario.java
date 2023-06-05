@@ -14,6 +14,7 @@ public class Usuario implements Serializable {
     private String password;
     @SerializedName("rol")
     private String rol;
+    private byte[] imagenPefil;
 
 
     public Usuario(String name, String email,String password, String rol) {
@@ -27,6 +28,19 @@ public class Usuario implements Serializable {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public Usuario(String username, byte[] imagenPerfil) {
+        this.name = username;
+        this.imagenPefil = imagenPerfil;
+    }
+
+    public byte[] getImagenPefil() {
+        return imagenPefil;
+    }
+
+    public void setImagenPefil(byte[] imagenPefil) {
+        this.imagenPefil = imagenPefil;
     }
 
     public String getUsername() {

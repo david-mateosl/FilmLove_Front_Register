@@ -29,7 +29,6 @@
             android:id="@+id/tituloDeProducion"
             android:layout_width="155dp"
             android:layout_height="37dp"
-            android:layout_marginEnd="12dp"
             android:layout_marginBottom="12dp"
             android:text="El bueno el feo y el malo"
             android:textStyle="bold"
@@ -41,15 +40,15 @@
             android:id="@+id/valorancionMediaDeProducion"
             android:layout_width="67dp"
             android:layout_height="33dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="24dp"
             android:background="#FF0000"
+            android:gravity="center"
             android:text="5/5"
             android:textAlignment="center"
-            android:gravity="center"
             app:layout_constraintBottom_toTopOf="@+id/txtSinopsis"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintVertical_bias="0.457"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
