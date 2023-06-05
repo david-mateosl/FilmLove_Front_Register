@@ -196,4 +196,12 @@ public class GeneroActivity extends Activity implements GenderCallback, SearchVi
         });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(this, PrincipalActivity.class);
+        startActivity(i);
+        i.putExtra("usuario",usuario);
+        finish();
+    }
 }

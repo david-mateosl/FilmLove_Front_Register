@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:text="GENEROS"
             android:textAlignment="textStart"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

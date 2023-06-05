@@ -142,7 +142,7 @@ public class SeriesActivity extends Activity implements SearchView.OnQueryTextLi
 
             @Override
             public void onProductionListLoaded(List<Production> productions) {
-                // No es necesario implementar este método para la actividad de series
+
             }
 
             @Override
@@ -230,5 +230,13 @@ public class SeriesActivity extends Activity implements SearchView.OnQueryTextLi
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(this, PrincipalActivity.class);
+        startActivity(i);
+        i.putExtra("usuario",usuario);
+        finish();
     }
 }

@@ -10,8 +10,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 
-public class UsuarioDAO extends SQLiteOpenHelper {
+public class UsuarioDAO extends SQLiteOpenHelper implements Serializable {
     private static final String DATABASE_NAME = "usuarios.db";
     private static final int DATABASE_VERSION = 1;
     private static final String TABLE_NAME = "usuarios";

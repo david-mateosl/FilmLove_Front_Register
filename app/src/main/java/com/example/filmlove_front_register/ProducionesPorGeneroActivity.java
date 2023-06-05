@@ -230,4 +230,9 @@ public class ProducionesPorGeneroActivity extends Activity implements Production
         });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

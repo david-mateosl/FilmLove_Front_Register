@@ -6,11 +6,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.view.GravityCompat;
@@ -124,16 +128,24 @@ public class LoginActivity extends Activity implements LoginCallback {
 
     public void mostrarDialogoOlvidarContrasena(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Restablecer contraseña");
-
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_reset_password, null);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogView = inflater.inflate(R.layout.alert_dialog_contrasena_olvidada, null, false);
         builder.setView(dialogView);
 
-        EditText emailEditText = dialogView.findViewById(R.id.editTextEmail);
+        // Obtener referencias a los elementos del XML
+        TextView emailEditText = dialogView.findViewById(R.id.editUserEmail);
+        Button enviarButton = dialogView.findViewById(R.id.btnEnviar);
+        Button cancelarButton = dialogView.findViewById(R.id.btnCancelar);
 
-        builder.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
+        AlertDialog dialog = builder.create(); // Mover la creación del AlertDialog aquí
+        if(dialog.getWindow() != null){
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+
+        // Configurar el botón "Enviar"
+        enviarButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 String email = emailEditText.getText().toString();
 
                 // Validar el formato del email (puedes agregar una validación adicional si lo deseas)
@@ -143,20 +155,25 @@ public class LoginActivity extends Activity implements LoginCallback {
                     Toast.makeText(LoginActivity.this, "Ingresa un email válido", Toast.LENGTH_SHORT).show();
                 }
 
+                // Cerrar el AlertDialog después de hacer clic en el botón "Enviar"
                 dialog.dismiss();
             }
         });
 
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        // Configurar el botón "Cancelar"
+        cancelarButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
+                // Cerrar el AlertDialog después de hacer clic en el botón "Cancelar"
                 dialog.dismiss();
             }
         });
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        dialog.show(); // Mostrar el AlertDialog después de configurar los botones
     }
+
+
+
 
 
     private boolean isValidEmail(String email) {
@@ -259,5 +276,10 @@ public class LoginActivity extends Activity implements LoginCallback {
         Intent iRegistro = new Intent(this, RegisterActivity.class);
         startActivity(iRegistro);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
     }
 }

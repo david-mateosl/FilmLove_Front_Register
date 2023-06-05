@@ -294,4 +294,11 @@ public class FavoritoActivity extends Activity implements SearchView.OnQueryText
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(this, PrincipalActivity.class);
+        startActivity(i);
+        i.putExtra("usuario",usuario);
+        finish();
+    }
 }

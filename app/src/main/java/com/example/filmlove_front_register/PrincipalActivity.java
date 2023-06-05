@@ -119,7 +119,7 @@ public class PrincipalActivity extends Activity implements SearchView.OnQueryTex
 
         desplegarMenu();
 
-        usuarioDAO = new UsuarioDAO(this); // Crear una instancia de UsuarioDAO
+        usuarioDAO = new UsuarioDAO(this);
 
         if (usuario != null) {
             cargarDatosUsuario();
@@ -241,15 +241,6 @@ public class PrincipalActivity extends Activity implements SearchView.OnQueryTex
                     String rutaImagen = films.get(i).getRutaImagen();
                     cargarImagenConGlide(rutaImagen, imageViews[i]);
                     String titulo = films.get(i).getTitulo();
-                    if (titulo.length() > 16) {
-                        StringBuilder sb = new StringBuilder(titulo);
-                        int insertPosition = 16;
-                        while (insertPosition < sb.length()) {
-                            sb.insert(insertPosition, "\n");
-                            insertPosition += 17;
-                        }
-                        titulo = sb.toString();
-                    }
                     textViews[i].setText(titulo);
 
                     // Agregar OnClickListener a cada ImageView
@@ -269,6 +260,7 @@ public class PrincipalActivity extends Activity implements SearchView.OnQueryTex
             }
         });
     }
+
 
     private void cargarImagenConGlide(String rutaImagen, ImageView imageView) {
         Glide.with(this)
@@ -331,18 +323,6 @@ public class PrincipalActivity extends Activity implements SearchView.OnQueryTex
     }
 
 
-    private byte[] convertInputStreamToByteArray(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-        int bufferSize = 1024;
-        byte[] buffer = new byte[bufferSize];
-        int len;
-        while ((len = inputStream.read(buffer)) != -1) {
-            byteBuffer.write(buffer, 0, len);
-        }
-        return byteBuffer.toByteArray();
-    }
-
-
     public void desplegarMenu(){
         imagenLogo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -352,6 +332,13 @@ public class PrincipalActivity extends Activity implements SearchView.OnQueryTex
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
+        finish();
     }
 
 }
