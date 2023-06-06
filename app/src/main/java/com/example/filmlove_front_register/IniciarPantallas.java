@@ -89,7 +89,6 @@ public class IniciarPantallas {
                 Intent iSeries = new Intent(context, SeriesActivity.class);
                 iSeries.putExtra("usuario",usuario);
                 context.startActivity(iSeries);
-                ((Activity) context).finish();
             }
         });
     }

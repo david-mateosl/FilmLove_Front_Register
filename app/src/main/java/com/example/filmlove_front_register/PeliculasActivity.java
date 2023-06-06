@@ -1,7 +1,12 @@
 package com.example.filmlove_front_register;
 
+import static com.example.filmlove_front_register.IniciarPantallas.REQUEST_CODE_IMAGE_PICK;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +19,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -24,6 +30,9 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,9 +54,9 @@ public class PeliculasActivity extends Activity implements SearchView.OnQueryTex
     private TextView series;
     private TextView generos;
     private Usuario usuario;
-    ImageView imagenLogo;
-
-    SearchView barraBusqueda;
+    private ImageView imagenLogo;
+    private SearchView barraBusqueda;
+    private UsuarioDAO usuarioDAO;
 
 
     @Override
@@ -79,8 +88,60 @@ public class PeliculasActivity extends Activity implements SearchView.OnQueryTex
         IniciarPantallas.series(series, PeliculasActivity.this, usuario);
         IniciarPantallas.generos(generos, PeliculasActivity.this, usuario);
 
+        usuarioDAO = new UsuarioDAO(this); // Crear una instancia de UsuarioDAO
+
+        if (usuario != null) {
+            cargarDatosUsuario();
+        }
+
         obtenerPeliculasDesdeBaseDeDatos();
         desplegarMenu();
+    }
+
+    private void cargarDatosUsuario() {
+        byte[] imagenPerfilBytes = usuarioDAO.obtenerImagenPerfil(usuario.getUsername());
+        if (imagenPerfilBytes != null) {
+            Bitmap imagenBitmap = BitmapFactory.decodeByteArray(imagenPerfilBytes, 0, imagenPerfilBytes.length);
+            imagenPerfil.setImageBitmap(imagenBitmap);
+        } else {
+            imagenPerfil.setImageResource(R.drawable.foto_perfil_por_defecto);
+        }
+    }
+
+    private void guardarImagenPerfil(Uri uri, byte[] imagenPerfilBytes) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            imagenPerfil.setImageBitmap(bitmap);
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            byte[] imagenBytes = outputStream.toByteArray();
+
+            usuarioDAO.guardarImagenPerfil(usuario.getUsername(), imagenBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_IMAGE_PICK && resultCode == RESULT_OK && data != null) {
+            Uri selectedImageUri = data.getData();
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                byte[] imagenBytes = outputStream.toByteArray();
+
+                guardarImagenPerfil(selectedImageUri, imagenBytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -240,9 +301,6 @@ public class PeliculasActivity extends Activity implements SearchView.OnQueryTex
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this, PrincipalActivity.class);
-        startActivity(i);
-        i.putExtra("usuario",usuario);
         finish();
     }
 }

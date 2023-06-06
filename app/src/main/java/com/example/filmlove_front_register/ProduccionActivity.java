@@ -4,17 +4,13 @@ import static com.example.filmlove_front_register.IniciarPantallas.REQUEST_CODE_
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -23,10 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.bumptech.glide.Glide;
 import com.example.filmlove_front_register.Controlador.ControladorProducion;
 import com.squareup.picasso.Picasso;
 
@@ -70,7 +66,7 @@ public class ProduccionActivity extends Activity implements SearchView.OnQueryTe
     private TextView seriesBoton;
     private TextView generos;
     private SearchView barraBusqueda;
-    private byte[] imagenPerfilBytes;
+
     private UsuarioDAO usuarioDAO;
 
 
@@ -85,18 +81,6 @@ public class ProduccionActivity extends Activity implements SearchView.OnQueryTe
         production = (Production) intent.getSerializableExtra("production");
         System.out.println(production);
         usuario = (Usuario) intent.getSerializableExtra("usuario");
-        //imagenPerfilBytes = getIntent().getByteArrayExtra("usuarioDAO");
-
-        usuarioDAO = new UsuarioDAO(this); // Crear una instancia de UsuarioDAO
-
-        if (usuario != null) {
-            cargarDatosUsuario();
-        }else {
-            Toast.makeText(this, "error al cargar el usuario", Toast.LENGTH_SHORT).show();
-        }
-
-
-
         generosProducionConcatenados = obtenerGenerosConcatenados(production.getGeneroList());
         barraBusqueda = findViewById(R.id.barraDeBusqueda);
         barraBusqueda.setOnQueryTextListener(this);
@@ -137,15 +121,6 @@ public class ProduccionActivity extends Activity implements SearchView.OnQueryTe
         imagenLogo = findViewById(R.id.imagenLogo);
 
         IniciarPantallas.menuFotoPerfil(imagenPerfil, ProduccionActivity.this);
-        imagenPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Abrir la galería de imágenes para seleccionar una foto de perfil
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, REQUEST_CODE_IMAGE_PICK);
-            }
-        });
-
         IniciarPantallas.volverAInicio(iniciarSesion, ProduccionActivity.this, usuario);
         IniciarPantallas.favoritos(favoritos, ProduccionActivity.this, usuario);
         IniciarPantallas.peliculas(pelicula, ProduccionActivity.this, usuario);
@@ -170,8 +145,60 @@ public class ProduccionActivity extends Activity implements SearchView.OnQueryTe
             cargarImagenesProduccion(imagen);
         }
 
+        usuarioDAO = new UsuarioDAO(this); // Crear una instancia de UsuarioDAO
+
+        if (usuario != null) {
+            cargarDatosUsuario();
+        }
+
         votar();
         desplegarMenu();
+    }
+
+    private void cargarDatosUsuario() {
+        byte[] imagenPerfilBytes = usuarioDAO.obtenerImagenPerfil(usuario.getUsername());
+        if (imagenPerfilBytes != null) {
+            Bitmap imagenBitmap = BitmapFactory.decodeByteArray(imagenPerfilBytes, 0, imagenPerfilBytes.length);
+            imagenPerfil.setImageBitmap(imagenBitmap);
+        } else {
+            imagenPerfil.setImageResource(R.drawable.foto_perfil_por_defecto);
+        }
+    }
+
+    private void guardarImagenPerfil(Uri uri, byte[] imagenPerfilBytes) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            imagenPerfil.setImageBitmap(bitmap);
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            byte[] imagenBytes = outputStream.toByteArray();
+
+            usuarioDAO.guardarImagenPerfil(usuario.getUsername(), imagenBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_IMAGE_PICK && resultCode == RESULT_OK && data != null) {
+            Uri selectedImageUri = data.getData();
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                byte[] imagenBytes = outputStream.toByteArray();
+
+                guardarImagenPerfil(selectedImageUri, imagenBytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public String obtenerGenerosConcatenados(List<Genero> generosList) {
@@ -206,86 +233,69 @@ public class ProduccionActivity extends Activity implements SearchView.OnQueryTe
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                if (fromUser) {
-                    showCommentDialog();
-                }
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ProduccionActivity.this);
+                dialogBuilder.setTitle("Comentario");
+
+                final EditText editText = new EditText(ProduccionActivity.this);
+                dialogBuilder.setView(editText);
+
+                dialogBuilder.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String comment = editText.getText().toString();
+                        int vote = (int) rating;
+
+                        CommentCallback commentCallback = new CommentCallback() {
+                            @Override
+                            public void onCommentSuccess(String message) {
+                                String mensaje = production.getTitulo() + " fue votada exitosamente";
+                                Toast.makeText(ProduccionActivity.this, mensaje, Toast.LENGTH_SHORT).show();
+                                actualizarVotosMedios(); // Actualizar la votación media después de votar y comentar
+                            }
+
+                            @Override
+                            public void onCommentFailure(String error) {
+                                // Manejar el fallo del comentario, por ejemplo, mostrar un mensaje de error
+                                Toast.makeText(ProduccionActivity.this, error, Toast.LENGTH_SHORT).show();
+                            }
+                        };
+
+                        ProductionVoteCallback voteCallback = new ProductionVoteCallback() {
+                            @Override
+                            public void onVoteProductionSuccess(String response) {
+                                String mensaje = production.getTitulo() + " fue votada exitosamente";
+                                Toast.makeText(ProduccionActivity.this, mensaje, Toast.LENGTH_SHORT).show();
+                                actualizarVotosMedios(); // Actualizar la votación media después de votar y comentar
+                            }
+
+                            @Override
+                            public void onVoteProductionFailure() {
+                                // Votación fallida, puedes manejar el error o mostrar un mensaje de error
+                            }
+                        };
+
+                        String userName = usuario.getUsername();
+                        String productionTitle = production.getTitulo();
+
+                        ControladorProducion.CommentProductionTask commentTask = new ControladorProducion.CommentProductionTask(commentCallback);
+                        commentTask.execute(userName, productionTitle, comment);
+
+                        ControladorProducion.voteProduction(userName, productionTitle, vote, voteCallback);
+
+                        dialog.dismiss();
+                    }
+                });
+
+                dialogBuilder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.show();
             }
         });
     }
-
-    private void showCommentDialog() {
-        LayoutInflater inflater = LayoutInflater.from(ProduccionActivity.this);
-        View dialogView = inflater.inflate(R.layout.alert_dialog_comentarios, null);
-
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ProduccionActivity.this);
-        dialogBuilder.setView(dialogView);
-
-        EditText editText = dialogView.findViewById(R.id.editComentario);
-        Button btnEnviar = dialogView.findViewById(R.id.btnEnviar);
-        Button btnCancelar = dialogView.findViewById(R.id.btnCancelar);
-
-        AlertDialog dialog = dialogBuilder.create();
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-        }
-
-        btnEnviar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String comment = editText.getText().toString();
-                int vote = (int) ratingBar.getRating();
-
-                CommentCallback commentCallback = new CommentCallback() {
-                    @Override
-                    public void onCommentSuccess(String message) {
-                        String mensaje = production.getTitulo() + " fue votada exitosamente";
-                        Toast.makeText(ProduccionActivity.this, mensaje, Toast.LENGTH_SHORT).show();
-                        actualizarVotosMedios();
-                        dialog.dismiss();
-                    }
-
-                    @Override
-                    public void onCommentFailure(String error) {
-                        Toast.makeText(ProduccionActivity.this, error, Toast.LENGTH_SHORT).show();
-                    }
-                };
-
-                ProductionVoteCallback voteCallback = new ProductionVoteCallback() {
-                    @Override
-                    public void onVoteProductionSuccess(String response) {
-                        String mensaje = production.getTitulo() + " fue votada exitosamente";
-                        Toast.makeText(ProduccionActivity.this, mensaje, Toast.LENGTH_SHORT).show();
-                        actualizarVotosMedios();
-                        dialog.dismiss();
-                    }
-
-                    @Override
-                    public void onVoteProductionFailure() {
-                        // Manejar la votación fallida
-                        dialog.dismiss();
-                    }
-                };
-
-                String userName = usuario.getUsername();
-                String productionTitle = production.getTitulo();
-
-                ControladorProducion.CommentProductionTask commentTask = new ControladorProducion.CommentProductionTask(commentCallback);
-                commentTask.execute(userName, productionTitle, comment);
-
-                ControladorProducion.voteProduction(userName, productionTitle, vote, voteCallback);
-            }
-        });
-
-        btnCancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-    }
-
 
     private void buscarProduccionPorNombre(String nombre) {
         controladorProducion.searchProduction(nombre, new ProductionCallback() {
@@ -350,8 +360,7 @@ public class ProduccionActivity extends Activity implements SearchView.OnQueryTe
         controladorProducion.searchProduction(production.getTitulo(), new ProductionCallback() {
             @Override
             public void onProductionSuccess(Production production) {
-                float ratingMedio = production.getRating_medio();
-                updateVotosMedios(ratingMedio);
+                updateVotosMedios(production.getRating_medio());
             }
 
             @Override
@@ -361,12 +370,12 @@ public class ProduccionActivity extends Activity implements SearchView.OnQueryTe
 
             @Override
             public void onProductionFailure() {
-                // Manejar la carga de la producción fallida, por ejemplo, mostrar un mensaje de error
+                // Manejar la falla de búsqueda de producción
             }
         });
     }
 
-    public void desplegarMenu() {
+    public void desplegarMenu(){
         imagenLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -374,63 +383,8 @@ public class ProduccionActivity extends Activity implements SearchView.OnQueryTe
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_IMAGE_PICK && resultCode == RESULT_OK && data != null) {
-            Uri selectedImageUri = data.getData();
-            try {
-                InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-                byte[] imagenBytes = outputStream.toByteArray();
-
-                guardarImagenPerfil(selectedImageUri, imagenBytes);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void cargarImagenConGlide(String rutaImagen, ImageView imageView) {
-        Glide.with(this)
-                .load(rutaImagen)
-                .into(imageView);
-    }
-
-    private void guardarImagenPerfil(Uri uri, byte[] imagenPerfilBytes) {
-        try {
-            InputStream inputStream = getContentResolver().openInputStream(uri);
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            imagenPerfil.setImageBitmap(bitmap);
-
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-            byte[] imagenBytes = outputStream.toByteArray();
-
-            usuarioDAO.guardarImagenPerfil(usuario.getUsername(), imagenBytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void cargarDatosUsuario() {
-        byte[] imagenPerfilBytes = usuarioDAO.obtenerImagenPerfil(usuario.getUsername());
-        if (imagenPerfilBytes != null) {
-            Bitmap imagenBitmap = BitmapFactory.decodeByteArray(imagenPerfilBytes, 0, imagenPerfilBytes.length);
-            imagenPerfil.setImageBitmap(imagenBitmap);
-        } else {
-            imagenPerfil.setImageResource(R.drawable.foto_perfil_por_defecto);
-        }
     }
 
 
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
 }

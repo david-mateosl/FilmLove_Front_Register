@@ -135,6 +135,17 @@ public class PrincipalActivity extends Activity implements SearchView.OnQueryTex
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        usuarioDAO = new UsuarioDAO(this);
+
+        if (usuario != null) {
+            cargarDatosUsuario();
+        }
+    }
+
     private void cargarDatosUsuario() {
         byte[] imagenPerfilBytes = usuarioDAO.obtenerImagenPerfil(usuario.getUsername());
         if (imagenPerfilBytes != null) {
